@@ -1,0 +1,209 @@
+<!--
+Phantom-WireGuard
+Copyright (C) 2025 Rıza Emre ARAS <r.emrearas@proton.me>
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+# Phantom-WireGuard
+
+[![Release Workflow](https://github.com/remrearas/phantom-wireguard/actions/workflows/release-workflow.yml/badge.svg)](https://github.com/remrearas/phantom-wireguard/actions/workflows/release-workflow.yml)
+
+```bash
+██████╗ ██╗  ██╗ █████╗ ███╗   ██╗████████╗ ██████╗ ███╗   ███╗
+██╔══██╗██║  ██║██╔══██╗████╗  ██║╚══██╔══╝██╔═══██╗████╗ ████║
+██████╔╝███████║███████║██╔██╗ ██║   ██║   ██║   ██║██╔████╔██║
+██╔═══╝ ██╔══██║██╔══██║██║╚██╗██║   ██║   ██║   ██║██║╚██╔╝██║
+██║     ██║  ██║██║  ██║██║ ╚████║   ██║   ╚██████╔╝██║ ╚═╝ ██║
+╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝     ╚═╝
+```
+
+**خادمك. شبكتك. خصوصيتك.**
+
+Phantom-WireGuard هي أداة معيارية لإعداد وإدارة بنية WireGuard VPN التحتية
+على خادمك الخاص. إلى جانب إدارة VPN الأساسية، توفر اتصالات مقاومة للرقابة،
+تشفيرًا متعدد الطبقات، وسيناريوهات خصوصية متقدمة.
+
+🌎 **https://www.phantom.tc**
+
+📰 **https://blog.phantom.tc**
+
+---
+
+## البداية السريعة
+
+### المتطلبات
+
+**الخادم:**
+- خادم متصل بالإنترنت بعنوان IP عام ونظام تشغيل مدعوم
+- صلاحيات Root
+
+**نظام التشغيل:**
+- Debian 12, 13
+- Ubuntu 22.04, 24.04
+
+> **استهلاك الموارد:** يعمل WireGuard كوحدة نواة (kernel module)، ويستهلك حدًا أدنى من موارد النظام.
+> لمعلومات تفصيلية عن الأداء، راجع [WireGuard Performance](https://www.wireguard.com/performance/).
+
+### التثبيت
+
+```bash
+curl -sSL https://install.phantom.tc | bash
+```
+
+![Installation](assets/recordings/installation-dark.gif#gh-dark-mode-only)
+![Installation](assets/recordings/installation-light.gif#gh-light-mode-only)
+
+### ما بعد التثبيت
+
+عند اكتمال التثبيت بنجاح، سيظهر الخرج التالي:
+
+```
+========================================
+   PHANTOM-WIREGUARD INSTALLED!
+========================================
+
+Commands:
+  phantom-wireguard - Interactive UI
+  phantom-api       - API access
+
+Quick Start:
+  1. Run: phantom-wireguard
+  2. Select 'Core Management'
+  3. Add your first client
+
+API Example:
+  phantom-api core list_clients
+```
+
+---
+
+## سيناريوهات الاستخدام
+
+### Core - الإدارة المركزية
+
+إدارة العملاء، توليد المفاتيح التشفيرية، تخصيص عناوين IP تلقائيًا، والتحكم
+بالخدمات من واجهة مركزية واحدة.
+
+![Core Flow](assets/flow-diagrams/connection-flow-core.svg)
+
+**الميزات الرئيسية:**
+- إضافة/إزالة العملاء ومشاركة الإعدادات عبر رمز QR
+- حالة الخادم وإحصاءات الاتصال
+- إدارة جدار الحماية (Firewall)
+- تغيير الشبكة الفرعية (Subnet) وإعادة تعيين عناوين IP
+
+> **الاستخدام التفصيلي:** [API Documentation - Core Module](phantom/bin/docs/API.md#core-module)
+
+---
+
+### Multihop - طبقة VPN المزدوجة
+
+وجّه حركة مرورك عبر خوادم WireGuard خارجية. أنشئ طبقة تشفير مزدوجة
+باستخدام خوادمك الخاصة أو مزودي VPN التجاريين.
+
+![Multihop Flow](assets/flow-diagrams/connection-flow-multihop.svg)
+
+**الميزات الرئيسية:**
+- استيراد أي ملف إعدادات WireGuard
+- قواعد توجيه تلقائية وإعداد NAT
+- مراقبة الاتصال وإعادة الاتصال التلقائي
+- اختبارات اتصال VPN
+
+> **الاستخدام التفصيلي:** [API Documentation - Multihop Module](phantom/bin/docs/API.md#multihop-module)
+
+---
+
+### Ghost - وضع التخفي
+
+يُموَّه اتصال WireGuard الخاص بك ليبدو كحركة مرور HTTPS عادية. تجاوز أنظمة
+الفحص العميق للحزم (DPI) وحجب جدران الحماية للحصول على اتصال مقاوم للرقابة.
+
+![Ghost Flow](assets/flow-diagrams/connection-flow-ghost.svg)
+
+**الميزات الرئيسية:**
+- نفق عبر WebSocket (عبر wstunnel)
+- شهادات SSL تلقائية من Let's Encrypt
+- تصدير إعدادات العميل عبر `phantom-casper`
+
+> **الاستخدام التفصيلي:** [API Documentation - Ghost Module](phantom/bin/docs/API.md#ghost-module)
+
+---
+
+### MultiGhost - أقصى درجات الخصوصية
+
+ادمج وحدتي Ghost و Multihop للحصول على أعلى مستوى من الخصوصية ومقاومة
+الرقابة. يُموَّه اتصالك كحركة HTTPS ويُوجَّه عبر طبقة VPN مزدوجة.
+
+![MultiGhost Flow](assets/flow-diagrams/connection-flow-multighost.svg)
+
+**التفعيل:**
+```bash
+# 1. Ghost Mode تفعيل
+phantom-api ghost enable domain="cdn.example.com"
+
+# 2. VPN استيراد شبكة خارجية
+phantom-api multihop import_vpn_config config_path="/path/to/vpn.conf"
+
+# 3. Multihop تفعيل
+phantom-api multihop enable_multihop exit_name="vpn-exit"
+```
+
+> **الاستخدام التفصيلي:** [API Documentation - Full Censorship Resistance](phantom/bin/docs/API.md#enable-full-censorship-resistance)
+
+---
+
+## طرق الوصول
+
+| الطريقة             | الأمر                           | الوصف                                  |
+|---------------------|---------------------------------|----------------------------------------|
+| **CLI التفاعلي**    | `phantom-wireguard`             | واجهة مستخدم غنية قائمة على TUI        |
+| **API**             | `phantom-api <module> <action>` | وصول برمجي، خرج بصيغة JSON             |
+| **Ghost Export**    | `phantom-casper <client>`       | إعدادات عميل Ghost Mode                |
+
+---
+
+## الوثائق
+
+| الوثيقة                                          | الوصف                          |
+|--------------------------------------------------|--------------------------------|
+| [API Documentation](phantom/bin/docs/API.md)     | مرجع تفصيلي لجميع إجراءات API  |
+| [Module Architecture](phantom/modules/README.md) | البنية التقنية ونماذج البيانات |
+
+---
+
+## الترخيص
+
+Copyright (c) 2025 Rıza Emre ARAS <r.emrearas@proton.me>
+
+هذا البرنامج مرخص بموجب رخصة AGPL-3.0. للتفاصيل، راجع ملف [LICENSE](LICENSE).
+
+لتراخيص الأطراف الثالثة، راجع [THIRD_PARTY_LICENSES](THIRD_PARTY_LICENSES).
+
+WireGuard® هي علامة تجارية مسجلة لـ Jason A. Donenfeld.
+
+---
+
+## الدعم
+
+Phantom-WireGuard مشروع مفتوح المصدر. إذا كنت ترغب في دعم المشروع:
+
+**Monero (XMR):**
+```
+84KzoZga5r7avaAqrWD4JhXaM6t69v3qe2gyCGNNxAaaJgFizt1NzAQXtYoBk1xJPXEHNi6GKV1SeDZWUX7rxzaAQeYyZwQ
+```
+
+**Bitcoin (BTC):**
+```
+bc1qnjjrsfdatnc2qtjpkzwpgxpmnj3v4tdduykz57
+```
+
+---
+
+<!--suppress HtmlDeprecatedAttribute -->
+
+<div align="center">
+
+![Phantom Logo](phantom/bin/docs/assets/phantom-horizontal-master-midnight-phantom.svg#gh-light-mode-only)
+![Phantom Logo](phantom/bin/docs/assets/phantom-horizontal-master-stellar-silver.svg#gh-dark-mode-only)
+
+</div>
