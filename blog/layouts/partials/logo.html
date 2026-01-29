@@ -1,0 +1,6 @@
+<!--suppress HtmlUnknownTarget -->
+<a href="{{ .Site.Home.RelPermalink }}">
+  <div class="logo">
+    {{ with $.Site.Params.Logo.logoText }}{{ . }}{{ else }}Terminal{{ end }}
+  </div>
+</a>

@@ -1,0 +1,202 @@
+# Phantom-WireGuard
+
+```bash
+██████╗ ██╗  ██╗ █████╗ ███╗   ██╗████████╗ ██████╗ ███╗   ███╗
+██╔══██╗██║  ██║██╔══██╗████╗  ██║╚══██╔══╝██╔═══██╗████╗ ████║
+██████╔╝███████║███████║██╔██╗ ██║   ██║   ██║   ██║██╔████╔██║
+██╔═══╝ ██╔══██║██╔══██║██║╚██╗██║   ██║   ██║   ██║██║╚██╔╝██║
+██║     ██║  ██║██║  ██║██║ ╚████║   ██║   ╚██████╔╝██║ ╚═╝ ██║
+╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝     ╚═╝
+```
+
+**Kendi Sunucun. Kendi Ağın. Kendi Gizliliğin.**
+
+Phantom-WireGuard, kendi sunucunuzda WireGuard VPN altyapısı kurmanızı ve yönetmenizi sağlayan
+modüler bir araçtır. Temel VPN yönetiminin ötesinde; sansüre dayanıklı bağlantılar, çok katmanlı
+şifreleme ve gelişmiş gizlilik senaryoları sunar.
+
+🌎 **https://www.phantom.tc**
+
+📰 **https://blog.phantom.tc**
+
+---
+
+## Hızlı Kurulum
+
+### Gereksinimler
+
+**Sunucu:**
+- İnternet erişimi ve genel (public) IP adresine sahip, desteklenen işletim sistemlerinden birine sahip sunucu
+- Root erişimi
+
+**İşletim Sistemi:**
+- Debian 12, 13
+- Ubuntu 22.04, 24.04
+
+> **Kaynak Kullanımı:** WireGuard kernel modülü olarak çalıştığı için minimal sistem kaynağı kullanır.
+> Detaylı performans bilgisi için [WireGuard Performance](https://www.wireguard.com/performance/) sayfasına bakınız.
+
+### Kurulum
+
+```bash
+curl -sSL https://install.phantom.tc | bash
+```
+
+![Installation](assets/recordings/installation-dark.gif#gh-dark-mode-only)
+![Installation](assets/recordings/installation-light.gif#gh-light-mode-only)
+
+### Kurulum Sonrası
+
+Kurulum başarıyla tamamlandığında aşağıdaki çıktıyı göreceksiniz:
+
+```
+========================================
+   PHANTOM-WIREGUARD INSTALLED!
+========================================
+
+Commands:
+  phantom-wireguard - Interactive UI
+  phantom-api       - API access
+
+Quick Start:
+  1. Run: phantom-wireguard
+  2. Select 'Core Management'
+  3. Add your first client
+
+API Example:
+  phantom-api core list_clients
+```
+
+---
+
+## Senaryolar
+
+### Core - Merkezi Yönetim Paneli
+
+İstemci yönetimi, kriptografik anahtar üretimi, otomatik IP tahsisi ve servis kontrolü
+tek merkezden yönetilir.
+
+![Core Flow](assets/flow-diagrams/connection-flow-core.svg)
+
+**Temel Özellikler:**
+- İstemci ekleme/kaldırma ve QR kod ile yapılandırma paylaşımı
+- Sunucu durumu ve bağlantı istatistikleri
+- Güvenlik duvarı yönetimi
+- Subnet değişikliği ve IP yeniden haritalama
+
+> **Detaylı Kullanım:** [API Dökümanı - Core Modülü](phantom/bin/docs/API_TR.md#core-modülü)
+
+---
+
+### Multihop - Çift VPN Katmanı
+
+Trafiğinizi harici WireGuard sunucuları üzerinden zincirleyin. Kendi sunucularınızı veya
+ticari VPN sağlayıcılarını kullanarak çift şifreleme katmanı oluşturun.
+
+![Multihop Flow](assets/flow-diagrams/connection-flow-multihop.svg)
+
+**Temel Özellikler:**
+- Herhangi bir WireGuard yapılandırma dosyasını içe aktarma
+- Otomatik yönlendirme kuralları ve NAT yapılandırması
+- Bağlantı izleme ve otomatik yeniden bağlanma
+- VPN bağlantı testleri
+
+> **Detaylı Kullanım:** [API Dökümanı - Multihop Modülü](phantom/bin/docs/API_TR.md#multihop-modülü)
+
+---
+
+### Ghost - Hayalet Modu
+
+WireGuard trafiğiniz standart HTTPS web trafiği olarak maskelenir. DPI (Derin Paket İnceleme)
+sistemlerini ve güvenlik duvarı engellemelerini atlayarak sansüre dirençli bağlantı sağlar.
+
+![Ghost Flow](assets/flow-diagrams/connection-flow-ghost.svg)
+
+**Temel Özellikler:**
+- WebSocket üzerinden tünel (wstunnel)
+- Otomatik Let's Encrypt SSL sertifikası
+- `phantom-casper` ile istemci yapılandırma dışa aktarımı
+
+> **Detaylı Kullanım:** [API Dökümanı - Ghost Modülü](phantom/bin/docs/API_TR.md#ghost-modülü)
+
+---
+
+### MultiGhost - Maksimum Gizlilik
+
+Ghost ve Multihop modüllerini birlikte kullanarak en yüksek düzeyde gizlilik ve sansür
+direnci elde edin. Bağlantınız HTTPS olarak maskelenir ve çift VPN katmanı üzerinden
+yönlendirilir.
+
+![MultiGhost Flow](assets/flow-diagrams/connection-flow-multighost.svg)
+
+**Etkinleştirme:**
+```bash
+# 1. Ghost Mode'u etkinleştir
+phantom-api ghost enable domain="cdn.example.com"
+
+# 2. Harici VPN'i içe aktar
+phantom-api multihop import_vpn_config config_path="/path/to/vpn.conf"
+
+# 3. Multihop'u etkinleştir
+phantom-api multihop enable_multihop exit_name="vpn-exit"
+```
+
+> **Detaylı Kullanım:** [API Dökümanı - Tam Sansür Dayanıklılığı](phantom/bin/docs/API_TR.md#tam-sansür-dayanıklılığını-etkinleştir)
+
+---
+
+## Erişim Yöntemleri
+
+| Yöntem             | Komut                         | Açıklama                            |
+|--------------------|-------------------------------|-------------------------------------|
+| **İnteraktif CLI** | `phantom-wireguard`           | Rich TUI tabanlı kullanıcı arayüzü  |
+| **API**            | `phantom-api <modül> <eylem>` | Programatik erişim, JSON çıktı      |
+| **Ghost Export**   | `phantom-casper <istemci>`    | Ghost Mode istemci yapılandırması   |
+
+---
+
+## Dökümanlar
+
+| Döküman                                           | Açıklama                                |
+|---------------------------------------------------|-----------------------------------------|
+| [API Dökümanı (TR)](phantom/bin/docs/API_TR.md)   | Tüm API eylemlerinin detaylı açıklaması |
+| [Modül Mimarisi](phantom/modules/README_TR.md)    | Teknik mimari ve veri modelleri         |
+
+---
+
+## Lisans
+
+Copyright (c) 2025 Rıza Emre ARAS <r.emrearas@proton.me>
+
+Bu yazılım AGPL-3.0 lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICENSE) dosyasına bakınız.
+
+Üçüncü taraf lisansları için [THIRD_PARTY_LICENSES](THIRD_PARTY_LICENSES) dosyasına bakınız.
+
+WireGuard® Jason A. Donenfeld'in tescilli ticari markasıdır.
+
+---
+
+## Destek
+
+Phantom-WireGuard açık kaynak bir projedir. Projeyi desteklemek isterseniz:
+
+**Monero (XMR):**
+```
+84KzoZga5r7avaAqrWD4JhXaM6t69v3qe2gyCGNNxAaaJgFizt1NzAQXtYoBk1xJPXEHNi6GKV1SeDZWUX7rxzaAQeYyZwQ
+```
+
+**Bitcoin (BTC):**
+```
+bc1qnjjrsfdatnc2qtjpkzwpgxpmnj3v4tdduykz57
+```
+
+---
+
+<!--suppress HtmlDeprecatedAttribute -->
+
+<div align="center">
+
+![Phantom Logo](phantom/bin/docs/assets/phantom-horizontal-master-midnight-phantom.svg#gh-light-mode-only)
+![Phantom Logo](phantom/bin/docs/assets/phantom-horizontal-master-stellar-silver.svg#gh-dark-mode-only)
+
+</div>

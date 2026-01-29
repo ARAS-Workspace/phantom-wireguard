@@ -1,0 +1,9 @@
+[run]
+source = /opt/phantom-wireguard/phantom
+
+omit =
+    /opt/phantom-wireguard/phantom/bin/*
+    /opt/phantom-wireguard/phantom/cli/*
+    /opt/phantom-wireguard/phantom/scripts/*
+    /opt/phantom-wireguard/phantom/run_tests_coverage.py
+    */tests/**
