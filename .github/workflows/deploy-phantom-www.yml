@@ -13,7 +13,7 @@ permissions:
   deployments: write
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,9 +33,25 @@ jobs:
         working-directory: ./tools/phantom-www
         run: python build.py --clean
 
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: phantom-www-dist
+          path: tools/phantom-www/dist
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: phantom-www-dist
+          path: dist
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy tools/phantom-www/dist --project-name=phantom-www
+          command: pages deploy dist --project-name=phantom-www

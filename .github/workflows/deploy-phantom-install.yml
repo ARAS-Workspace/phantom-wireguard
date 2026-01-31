@@ -11,7 +11,7 @@ on:
 jobs:
   deploy:
     name: Deploy to Cloudflare Workers
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     permissions:
       contents: read
       deployments: write

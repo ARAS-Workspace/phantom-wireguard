@@ -34,6 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       result: ${{ steps.test_runner.outputs.result }}
+      session_id: ${{ steps.test_runner.outputs.session_id }}
 
     steps:
       - name: Checkout code
@@ -85,6 +86,7 @@ jobs:
           
           echo "Session ID: $SESSION_ID"
           echo "SESSION_ID=$SESSION_ID" >> $GITHUB_ENV
+          echo "session_id=$SESSION_ID" >> $GITHUB_OUTPUT
           
           sudo -E /opt/phantom-test-venv/bin/python phantom/run_tests_coverage.py --session-id "$SESSION_ID"
           
@@ -101,39 +103,55 @@ jobs:
           
           exit $TEST_EXIT_CODE
 
-      - name: Upload Integration Test Reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: development-integration-coverage-${{ env.SESSION_ID }}
-          path: phantom/reports/coverage/${{ env.SESSION_ID }}/
-          retention-days: 90
-
       - name: Prepare Deployment Directory
         if: always()
         run: |
           # Create deployment directory
           mkdir -p deployment/development-integration
-          
+
           # Copy reports to deployment directory
           cp -r phantom/reports/coverage/${{ env.SESSION_ID }}/* deployment/development-integration/
-          
+
           # Generate directory indexes for web browsing
           echo "Generating directory indexes for Cloudflare Pages..."
           python .github/scripts/generate_directory_indexes.py deployment/development-integration/
-          
+
           DEPLOY_BRANCH="development-integration-${{ env.SESSION_ID }}"
-          
+
           echo "----------------------------------------"
           echo "Development Integration Test Deployment Information:"
           echo "  Branch: $DEPLOY_BRANCH"
           echo "  Session ID: ${{ env.SESSION_ID }}"
           echo "----------------------------------------"
-          
+
           echo "Development Integration deployment directory prepared successfully"
 
-      - name: Deploy Integration Tests to Cloudflare Pages
+      - name: Upload Deployment Artifact
         if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: development-integration-deployment-${{ env.SESSION_ID }}
+          path: deployment/development-integration/
+          retention-days: 90
+
+      - name: Set Exit Code
+        if: always()
+        run: |
+          exit ${{ env.TEST_EXIT_CODE }}
+
+  deploy:
+    needs: test
+    if: always()
+    runs-on: self-hosted
+
+    steps:
+      - name: Download Deployment Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: development-integration-deployment-${{ needs.test.outputs.session_id }}
+          path: deployment/development-integration
+
+      - name: Deploy Integration Tests to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -141,10 +159,5 @@ jobs:
           projectName: phantom-tests
           directory: deployment/development-integration
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          branch: development-integration-${{ env.SESSION_ID }}
+          branch: development-integration-${{ needs.test.outputs.session_id }}
           wranglerVersion: '3'
-
-      - name: Set Exit Code
-        if: always()
-        run: |
-          exit ${{ env.TEST_EXIT_CODE }}

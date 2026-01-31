@@ -34,6 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       result: ${{ steps.test_runner.outputs.result }}
+      session_id: ${{ steps.test_runner.outputs.session_id }}
 
     steps:
       - name: Checkout code
@@ -76,6 +77,7 @@ jobs:
 
           echo "Session ID: $SESSION_ID"
           echo "SESSION_ID=$SESSION_ID" >> $GITHUB_ENV
+          echo "session_id=$SESSION_ID" >> $GITHUB_OUTPUT
 
           sudo /opt/phantom-wireguard/.phantom-venv/bin/python /opt/phantom-wireguard/phantom/bin/tests/run_tests_coverage.py
 
@@ -91,14 +93,6 @@ jobs:
           fi
 
           exit $TEST_EXIT_CODE
-
-      - name: Upload Coverage Reports
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: production-integration-coverage-${{ env.SESSION_ID }}
-          path: /opt/phantom-wireguard/phantom/bin/tests/reports/
-          retention-days: 90
 
       - name: Prepare Deployment Directory
         if: success()
@@ -126,8 +120,32 @@ jobs:
 
           echo "Production Integration deployment directory prepared successfully"
 
-      - name: Deploy to Cloudflare Pages
+      - name: Upload Deployment Artifact
         if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-integration-deployment-${{ env.SESSION_ID }}
+          path: deployment/production-integration/
+          retention-days: 90
+
+      - name: Set Exit Code
+        if: always()
+        run: |
+          exit ${{ env.TEST_EXIT_CODE }}
+
+  deploy:
+    needs: test
+    if: needs.test.result == 'success'
+    runs-on: self-hosted
+
+    steps:
+      - name: Download Deployment Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: production-integration-deployment-${{ needs.test.outputs.session_id }}
+          path: deployment/production-integration
+
+      - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -135,10 +153,5 @@ jobs:
           projectName: phantom-tests
           directory: deployment/production-integration
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          branch: production-integration-${{ env.SESSION_ID }}
+          branch: production-integration-${{ needs.test.outputs.session_id }}
           wranglerVersion: '3'
-
-      - name: Set Exit Code
-        if: always()
-        run: |
-          exit ${{ env.TEST_EXIT_CODE }}
