@@ -19,7 +19,7 @@ modüler bir araçtır. Temel VPN yönetiminin ötesinde; sansüre dayanıklı b
 
 🌎 **https://www.phantom.tc**
 
-📰 **https://blog.phantom.tc**
+📰 **https://docs.phantom.tc**
 
 ---
 

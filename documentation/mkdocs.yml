@@ -1,0 +1,101 @@
+site_name: Phantom-WireGuard
+site_description: Phantom-WireGuard is a modular tool for setting up and managing WireGuard VPN infrastructure on your own server.
+site_author: Rıza Emre ARAS
+site_url: https://docs.phantom.tc
+#use_directory_urls: false  # This creates .html files instead of directories
+
+theme:
+  name: material
+  custom_dir: overrides
+  palette:
+    - scheme: slate
+      primary: cyan
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light mode
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to dark mode
+  features:
+    # - navigation.instant  # Removed - incompatible with i18n
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    logo: material/ghost
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: folder
+      languages:
+        - locale: en
+          name: English
+          build: true
+          default: true
+        - locale: tr
+          name: Türkçe
+          build: true
+          nav_translations:
+            Home: Ana Sayfa
+
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+      use_pygments: true
+      linenums: false
+      linenums_style: inline
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - toc:
+      permalink: true
+  - codehilite:
+      guess_lang: false
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tilde
+
+nav:
+  - Home: index.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/remrearas
+    - icon: fontawesome/solid/envelope
+      link: mailto:r.emrearas@proton.me
+  generator: true
+
+extra_css:
+  - assets/stylesheets/theme.css
+  - assets/stylesheets/custom-components.css
+
+extra_javascript:
+  - assets/javascripts/code-badges.js
+  - assets/javascripts/breadcrumb-scroll.js
+  - assets/javascripts/hreflang-generator.js
+
+copyright: Copyright &copy; 2025 Rıza Emre ARAS <r.emrearas@proton.me>

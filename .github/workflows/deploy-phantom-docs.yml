@@ -1,0 +1,96 @@
+name: Deploy Phantom Docs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'documentation/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'documentation/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      artifact_name: ${{ steps.prepare_artifact.outputs.artifact_name }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install Python dependencies
+        working-directory: ./documentation
+        run: |
+          pip install -r requirements.txt
+
+      - name: Install vendor builder dependencies
+        working-directory: ./documentation/tools/vendor-builder
+        run: |
+          npm install
+
+      - name: Build documentation
+        working-directory: ./documentation
+        run: |
+          python build.py
+
+      - name: Prepare Deployment Artifact
+        id: prepare_artifact
+        run: |
+          ARTIFACT_NAME="phantom-docs-$(echo ${{ github.sha }} | cut -c1-8)-$(date +%Y%m%d_%H%M%S)"
+          echo "artifact_name=$ARTIFACT_NAME" >> $GITHUB_OUTPUT
+
+          echo "----------------------------------------"
+          echo "Documentation Build Information:"
+          echo "  Artifact: $ARTIFACT_NAME"
+          echo "  Branch: ${{ github.head_ref || github.ref_name }}"
+          echo "  Commit: ${{ github.sha }}"
+          echo "----------------------------------------"
+
+      - name: Upload Deployment Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.prepare_artifact.outputs.artifact_name }}
+          path: documentation/outputs/www/
+          retention-days: 7
+
+  deploy:
+    needs: build
+    if: success()
+    runs-on: self-hosted
+
+    steps:
+      - name: Download Deployment Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build.outputs.artifact_name }}
+          path: deployment/www
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: phantom-docs
+          directory: deployment/www
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref || github.ref_name }}
+          wranglerVersion: '3'

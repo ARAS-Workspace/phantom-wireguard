@@ -19,7 +19,7 @@ censorship-resistant connections, multi-layer encryption, and advanced privacy s
 
 🌎 **https://www.phantom.tc**
 
-📰 **https://blog.phantom.tc**
+📰 **https://docs.phantom.tc**
 
 ---
 

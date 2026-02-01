@@ -25,7 +25,7 @@ Phantom-WireGuard هي أداة معيارية لإعداد وإدارة بني�
 
 🌎 **https://www.phantom.tc**
 
-📰 **https://blog.phantom.tc**
+📰 **https://docs.phantom.tc**
 
 ---
 
