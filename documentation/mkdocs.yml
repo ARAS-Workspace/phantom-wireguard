@@ -50,6 +50,7 @@ plugins:
           build: true
           nav_translations:
             Home: Ana Sayfa
+            API: API
 
 
 markdown_extensions:
@@ -77,9 +78,12 @@ markdown_extensions:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.tilde
+  - attr_list
+  - md_in_html
 
 nav:
   - Home: index.md
+  - API: api.md
 
 extra:
   social:

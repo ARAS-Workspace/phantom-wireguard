@@ -80,7 +80,7 @@ API Example:
 Client management, cryptographic key generation, automatic IP allocation, and service
 control are managed from a single interface.
 
-![Core Flow](assets/flow-diagrams/connection-flow-core.svg)
+![Core Flow](documentation/docs/assets/static/images/index/flow-diagrams/connection-flow-core.svg)
 
 **Key Features:**
 - Add/remove clients and share configurations via QR code
@@ -97,7 +97,7 @@ control are managed from a single interface.
 Chain your traffic through external WireGuard servers. Create a dual encryption
 layer using your own servers or commercial VPN providers.
 
-![Multihop Flow](assets/flow-diagrams/connection-flow-multihop.svg)
+![Multihop Flow](documentation/docs/assets/static/images/index/flow-diagrams/connection-flow-multihop.svg)
 
 **Key Features:**
 - Import any WireGuard configuration file
@@ -114,7 +114,7 @@ layer using your own servers or commercial VPN providers.
 Your WireGuard traffic is disguised as standard HTTPS web traffic. Bypass DPI (Deep Packet
 Inspection) systems and firewall blocks for censorship-resistant connectivity.
 
-![Ghost Flow](assets/flow-diagrams/connection-flow-ghost.svg)
+![Ghost Flow](documentation/docs/assets/static/images/index/flow-diagrams/connection-flow-ghost.svg)
 
 **Key Features:**
 - WebSocket tunneling (wstunnel)
@@ -130,7 +130,7 @@ Inspection) systems and firewall blocks for censorship-resistant connectivity.
 Combine Ghost and Multihop modules for the highest level of privacy and censorship
 resistance. Your connection is disguised as HTTPS and routed through a dual VPN layer.
 
-![MultiGhost Flow](assets/flow-diagrams/connection-flow-multighost.svg)
+![MultiGhost Flow](documentation/docs/assets/static/images/index/flow-diagrams/connection-flow-multighost.svg)
 
 **Activation:**
 ```bash

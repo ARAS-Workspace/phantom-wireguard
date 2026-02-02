@@ -160,6 +160,78 @@ curl -4 ifconfig.io
 
 ---
 
+## Senaryolar
+
+### Core - Merkezi Yönetim Paneli
+
+İstemci yönetimi, kriptografik anahtar üretimi, otomatik IP tahsisi ve servis kontrolü
+tek merkezden yönetilir.
+
+![Core Flow](../assets/static/images/index/flow-diagrams/connection-flow-core.svg)
+
+**Temel Özellikler:**
+
+- İstemci ekleme/kaldırma ve QR kod ile yapılandırma paylaşımı
+- Sunucu durumu ve bağlantı istatistikleri
+- Güvenlik duvarı yönetimi
+- Subnet değişikliği ve IP yeniden haritalama
+
+---
+
+### Multihop - Çift VPN Katmanı
+
+Trafiğinizi harici WireGuard sunucuları üzerinden zincirleyin. Kendi sunucularınızı veya
+ticari VPN sağlayıcılarını kullanarak çift şifreleme katmanı oluşturun.
+
+![Multihop Flow](../assets/static/images/index/flow-diagrams/connection-flow-multihop.svg)
+
+**Temel Özellikler:**
+
+- Herhangi bir WireGuard yapılandırma dosyasını içe aktarma
+- Otomatik yönlendirme kuralları ve NAT yapılandırması
+- Bağlantı izleme ve otomatik yeniden bağlanma
+- VPN bağlantı testleri
+
+---
+
+### Ghost - Hayalet Modu
+
+WireGuard trafiğiniz standart HTTPS web trafiği olarak maskelenir. DPI (Derin Paket İnceleme)
+sistemlerini ve güvenlik duvarı engellemelerini atlayarak sansüre dirençli bağlantı sağlar.
+
+![Ghost Flow](../assets/static/images/index/flow-diagrams/connection-flow-ghost.svg)
+
+**Temel Özellikler:**
+
+- WebSocket üzerinden tünel (wstunnel)
+- Otomatik Let's Encrypt SSL sertifikası
+- `phantom-casper` ile istemci yapılandırma dışa aktarımı
+
+---
+
+### MultiGhost - Maksimum Gizlilik
+
+Ghost ve Multihop modüllerini birlikte kullanarak en yüksek düzeyde gizlilik ve sansür
+direnci elde edin. Bağlantınız HTTPS olarak maskelenir ve çift VPN katmanı üzerinden
+yönlendirilir.
+
+![MultiGhost Flow](../assets/static/images/index/flow-diagrams/connection-flow-multighost.svg)
+
+**Etkinleştirme:**
+
+```bash
+# 1. Ghost Mode'u etkinleştir
+phantom-api ghost enable domain="cdn.example.com"
+
+# 2. Harici VPN'i içe aktar
+phantom-api multihop import_vpn_config config_path="/path/to/vpn.conf"
+
+# 3. Multihop'u etkinleştir
+phantom-api multihop enable_multihop exit_name="vpn-exit"
+```
+
+---
+
 ## Erişim Yöntemleri
 
 | Yöntem             | Komut                         | Açıklama                            |

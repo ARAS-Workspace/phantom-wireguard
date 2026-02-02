@@ -160,6 +160,77 @@ curl -4 ifconfig.io
 
 ---
 
+## Scenarios
+
+### Core - Central Management
+
+Client management, cryptographic key generation, automatic IP allocation, and service
+control are managed from a single interface.
+
+![Core Flow](../assets/static/images/index/flow-diagrams/connection-flow-core.svg)
+
+**Key Features:**
+
+- Add/remove clients and share configurations via QR code
+- Server status and connection statistics
+- Firewall management
+- Subnet changes and IP remapping
+
+---
+
+### Multihop - Dual VPN Layer
+
+Chain your traffic through external WireGuard servers. Create a dual encryption
+layer using your own servers or commercial VPN providers.
+
+![Multihop Flow](../assets/static/images/index/flow-diagrams/connection-flow-multihop.svg)
+
+**Key Features:**
+
+- Import any WireGuard configuration file
+- Automatic routing rules and NAT configuration
+- Connection monitoring and automatic reconnection
+- VPN connection tests
+
+---
+
+### Ghost - Stealth Mode
+
+Your WireGuard traffic is disguised as standard HTTPS web traffic. Bypass DPI (Deep Packet
+Inspection) systems and firewall blocks for censorship-resistant connectivity.
+
+![Ghost Flow](../assets/static/images/index/flow-diagrams/connection-flow-ghost.svg)
+
+**Key Features:**
+
+- WebSocket tunneling (wstunnel)
+- Automatic Let's Encrypt SSL certificates
+- Client configuration export via `phantom-casper`
+
+---
+
+### MultiGhost - Maximum Privacy 
+
+Combine Ghost and Multihop modules for the highest level of privacy and censorship
+resistance. Your connection is disguised as HTTPS and routed through a dual VPN layer.
+
+![MultiGhost Flow](../assets/static/images/index/flow-diagrams/connection-flow-multighost.svg)
+
+**Activation:**
+
+```bash
+# 1. Enable Ghost Mode
+phantom-api ghost enable domain="cdn.example.com"
+
+# 2. Import external VPN
+phantom-api multihop import_vpn_config config_path="/path/to/vpn.conf"
+
+# 3. Enable Multihop
+phantom-api multihop enable_multihop exit_name="vpn-exit"
+```
+
+---
+
 ## Access Methods
 
 | Method              | Command                         | Description                      |

@@ -80,7 +80,7 @@ API Example:
 İstemci yönetimi, kriptografik anahtar üretimi, otomatik IP tahsisi ve servis kontrolü
 tek merkezden yönetilir.
 
-![Core Flow](assets/flow-diagrams/connection-flow-core.svg)
+![Core Flow](documentation/docs/assets/static/images/index/flow-diagrams/connection-flow-core.svg)
 
 **Temel Özellikler:**
 - İstemci ekleme/kaldırma ve QR kod ile yapılandırma paylaşımı
@@ -97,7 +97,7 @@ tek merkezden yönetilir.
 Trafiğinizi harici WireGuard sunucuları üzerinden zincirleyin. Kendi sunucularınızı veya
 ticari VPN sağlayıcılarını kullanarak çift şifreleme katmanı oluşturun.
 
-![Multihop Flow](assets/flow-diagrams/connection-flow-multihop.svg)
+![Multihop Flow](documentation/docs/assets/static/images/index/flow-diagrams/connection-flow-multihop.svg)
 
 **Temel Özellikler:**
 - Herhangi bir WireGuard yapılandırma dosyasını içe aktarma
@@ -114,7 +114,7 @@ ticari VPN sağlayıcılarını kullanarak çift şifreleme katmanı oluşturun.
 WireGuard trafiğiniz standart HTTPS web trafiği olarak maskelenir. DPI (Derin Paket İnceleme)
 sistemlerini ve güvenlik duvarı engellemelerini atlayarak sansüre dirençli bağlantı sağlar.
 
-![Ghost Flow](assets/flow-diagrams/connection-flow-ghost.svg)
+![Ghost Flow](documentation/docs/assets/static/images/index/flow-diagrams/connection-flow-ghost.svg)
 
 **Temel Özellikler:**
 - WebSocket üzerinden tünel (wstunnel)
@@ -131,7 +131,7 @@ Ghost ve Multihop modüllerini birlikte kullanarak en yüksek düzeyde gizlilik 
 direnci elde edin. Bağlantınız HTTPS olarak maskelenir ve çift VPN katmanı üzerinden
 yönlendirilir.
 
-![MultiGhost Flow](assets/flow-diagrams/connection-flow-multighost.svg)
+![MultiGhost Flow](documentation/docs/assets/static/images/index/flow-diagrams/connection-flow-multighost.svg)
 
 **Etkinleştirme:**
 ```bash

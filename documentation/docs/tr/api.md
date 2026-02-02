@@ -1,34 +1,19 @@
-# Phantom-WireGuard API Dokümantasyonu
-
-```bash
-██████╗ ██╗  ██╗ █████╗ ███╗   ██╗████████╗ ██████╗ ███╗   ███╗
-██╔══██╗██║  ██║██╔══██╗████╗  ██║╚══██╔══╝██╔═══██╗████╗ ████║
-██████╔╝███████║███████║██╔██╗ ██║   ██║   ██║   ██║██╔████╔██║
-██╔═══╝ ██╔══██║██╔══██║██║╚██╗██║   ██║   ██║   ██║██║╚██╔╝██║
-██║     ██║  ██║██║  ██║██║ ╚████║   ██║   ╚██████╔╝██║ ╚═╝ ██║
-╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝     ╚═╝
-Copyright (c) 2025 Rıza Emre ARAS <r.emrearas@proton.me>
-Licensed under AGPL-3.0 - see LICENSE file for details
-Third-party licenses - see THIRD_PARTY_LICENSES file for details
-WireGuard® is a registered trademark of Jason A. Donenfeld.
-```
-
-## İçindekiler
-
-- **Başlarken**
-
-- **Modüller**
-  - [Core Modülü](#core-modülü)
-  - [DNS Modülü](#dns-modülü)
-  - [Ghost Modülü](#ghost-modülü)
-  - [Multihop Modülü](#multihop-modülü)
-- **Referans**
-  - [Factory Reset](#factory-reset)
-  - [Yaygın İşlemler](#yaygın-işlemler)
-  - [Gelişmiş Kullanım](#gelişmiş-kullanım)
-  - [Sürüm Bilgisi](#sürüm-bilgisi)
+---
+extra_javascript:
+  - assets/javascripts/asciinema-player.js
+  - assets/javascripts/phantom-ascii.js
+  - assets/javascripts/animated-ascii-art.js
+extra_css:
+  - assets/stylesheets/ascii-styles.css
+  - assets/stylesheets/animated-ascii-art.css
 
 ---
+
+# API
+
+<div class="ascii-demo-container">
+  <pre id="phantom-ascii-pulse" class="ascii-art" data-effect="pulse"></pre>
+</div>
 
 ## Genel Bakış
 
@@ -175,13 +160,24 @@ denetimi, subnet değişikliği ve gelişmiş davranış ayarları) bu modül ü
 
 ### İstemci Ekle
 
-<details>
-<summary>CLI Önizleme</summary>
-
-![İstemci Ekle](assets/recordings/add-client-dark.gif#gh-dark-mode-only)
-![İstemci Ekle](assets/recordings/add-client-light.gif#gh-light-mode-only)
-
-</details>
+<div class="asciinema-player-container">
+    <div class="asciinema-player-header">
+        <h3>Phantom WireGuard</h3>
+        <span class="asciinema-player-info">CLI Önizleme</span>
+    </div>
+    <div class="asciinema-player-wrapper">
+        <div class="asciinema-player" 
+             data-cast-file="recordings/api/add-client"
+             data-cols="120"
+             data-rows="48"
+             data-autoplay="false"
+             data-loop="false"
+             data-speed="1.5"
+             data-theme="solarized-dark"
+             data-font-size="small">
+        </div>
+    </div>
+</div>
 
 ```bash
 phantom-api core add_client client_name="john-laptop"
@@ -215,13 +211,24 @@ phantom-api core add_client client_name="john-laptop"
 
 ### İstemci Kaldır
 
-<details>
-<summary>CLI Önizleme</summary>
-
-![İstemci Kaldır](assets/recordings/remove-client-dark.gif#gh-dark-mode-only)
-![İstemci Kaldır](assets/recordings/remove-client-light.gif#gh-light-mode-only)
-
-</details>
+<div class="asciinema-player-container">
+    <div class="asciinema-player-header">
+        <h3>Phantom WireGuard</h3>
+        <span class="asciinema-player-info">CLI Önizleme</span>
+    </div>
+    <div class="asciinema-player-wrapper">
+        <div class="asciinema-player"
+             data-cast-file="recordings/api/remove-client"
+             data-cols="120"
+             data-rows="48"
+             data-autoplay="false"
+             data-loop="false"
+             data-speed="1.5"
+             data-theme="solarized-dark"
+             data-font-size="small">
+        </div>
+    </div>
+</div>
 
 ```bash
 phantom-api core remove_client client_name="john-laptop"
@@ -251,13 +258,24 @@ phantom-api core remove_client client_name="john-laptop"
 
 ### İstemcileri Listele
 
-<details>
-<summary>CLI Önizleme</summary>
-
-![İstemcileri Listele](assets/recordings/list-clients-dark.gif#gh-dark-mode-only)
-![İstemcileri Listele](assets/recordings/list-clients-light.gif#gh-light-mode-only)
-
-</details>
+<div class="asciinema-player-container">
+    <div class="asciinema-player-header">
+        <h3>Phantom WireGuard</h3>
+        <span class="asciinema-player-info">CLI Önizleme</span>
+    </div>
+    <div class="asciinema-player-wrapper">
+        <div class="asciinema-player" 
+             data-cast-file="recordings/api/list-clients"
+             data-cols="120"
+             data-rows="48"
+             data-autoplay="false"
+             data-loop="false"
+             data-speed="1.5"
+             data-theme="solarized-dark"
+             data-font-size="small">
+        </div>
+    </div>
+</div>
 
 ```bash
 # İlk 10 istemciyi listele
@@ -274,7 +292,6 @@ phantom-api core list_clients search="john"
 - `page` (opsiyonel, varsayılan=1): Sayfa numarası
 - `per_page` (opsiyonel, varsayılan=10): Sayfa başına öğe sayısı
 - `search` (opsiyonel): Arama terimi
-
 
 **Yanıt:**
 ```json
@@ -310,15 +327,27 @@ phantom-api core list_clients search="john"
 }
 ```
 
+
 ### İstemci Yapılandırmasını Dışa Aktar
 
-<details>
-<summary>CLI Önizleme</summary>
-
-![İstemci Yapılandırmasını Dışa Aktar](assets/recordings/export-client-dark.gif#gh-dark-mode-only)
-![İstemci Yapılandırmasını Dışa Aktar](assets/recordings/export-client-light.gif#gh-light-mode-only)
-
-</details>
+<div class="asciinema-player-container">
+    <div class="asciinema-player-header">
+        <h3>Phantom WireGuard</h3>
+        <span class="asciinema-player-info">CLI Önizleme</span>
+    </div>
+    <div class="asciinema-player-wrapper">
+        <div class="asciinema-player" 
+             data-cast-file="recordings/api/export-client"
+             data-cols="120"
+             data-rows="48"
+             data-autoplay="false"
+             data-loop="false"
+             data-speed="1.5"
+             data-theme="solarized-dark"
+             data-font-size="small">
+        </div>
+    </div>
+</div>
 
 ```bash
 # İstemci yapılandırmasını dışa aktar
@@ -327,7 +356,6 @@ phantom-api core export_client client_name="john-laptop"
 
 **Parametreler:**
 - `client_name` (zorunlu): Dışa aktarılacak istemci
-
 
 **Yanıt:**
 ```json
@@ -372,13 +400,24 @@ oluşturma CLI arayüzünde mevcuttur.
 
 ### Sunucu Durumu
 
-<details>
-<summary>CLI Önizleme</summary>
-
-![Sunucu Durumu](assets/recordings/server-status-dark.gif#gh-dark-mode-only)
-![Sunucu Durumu](assets/recordings/server-status-light.gif#gh-light-mode-only)
-
-</details>
+<div class="asciinema-player-container">
+    <div class="asciinema-player-header">
+        <h3>Phantom WireGuard</h3>
+        <span class="asciinema-player-info">CLI Önizleme</span>
+    </div>
+    <div class="asciinema-player-wrapper">
+        <div class="asciinema-player" 
+             data-cast-file="recordings/api/server-status"
+             data-cols="120"
+             data-rows="48"
+             data-autoplay="false"
+             data-loop="false"
+             data-speed="1.5"
+             data-theme="solarized-dark"
+             data-font-size="small">
+        </div>
+    </div>
+</div>
 
 ```bash
 phantom-api core server_status
@@ -448,13 +487,24 @@ phantom-api core server_status
 
 ### Servis Günlükleri
 
-<details>
-<summary>CLI Önizleme</summary>
-
-![Servis Günlükleri](assets/recordings/service-logs-dark.gif#gh-dark-mode-only)
-![Servis Günlükleri](assets/recordings/service-logs-light.gif#gh-light-mode-only)
-
-</details>
+<div class="asciinema-player-container">
+    <div class="asciinema-player-header">
+        <h3>Phantom WireGuard</h3>
+        <span class="asciinema-player-info">CLI Önizleme</span>
+    </div>
+    <div class="asciinema-player-wrapper">
+        <div class="asciinema-player" 
+             data-cast-file="recordings/api/service-logs"
+             data-cols="120"
+             data-rows="48"
+             data-autoplay="false"
+             data-loop="false"
+             data-speed="1.5"
+             data-theme="solarized-dark"
+             data-font-size="small">
+        </div>
+    </div>
+</div>
 
 ```bash
 # Son 50 satırı al (varsayılan)
@@ -469,13 +519,24 @@ phantom-api core service_logs lines=100
 
 ### En Son Eklenen İstemciler
 
-<details>
-<summary>CLI Önizleme</summary>
-
-![En Son Eklenen İstemciler](assets/recordings/recent-clients-dark.gif#gh-dark-mode-only)
-![En Son Eklenen İstemciler](assets/recordings/recent-clients-light.gif#gh-light-mode-only)
-
-</details>
+<div class="asciinema-player-container">
+    <div class="asciinema-player-header">
+        <h3>Phantom WireGuard</h3>
+        <span class="asciinema-player-info">CLI Önizleme</span>
+    </div>
+    <div class="asciinema-player-wrapper">
+        <div class="asciinema-player" 
+             data-cast-file="recordings/api/recent-clients"
+             data-cols="120"
+             data-rows="48"
+             data-autoplay="false"
+             data-loop="false"
+             data-speed="1.5"
+             data-theme="solarized-dark"
+             data-font-size="small">
+        </div>
+    </div>
+</div>
 
 ```bash
 # Son 5 istemciyi al (varsayılan)
@@ -490,21 +551,30 @@ phantom-api core latest_clients count=10
 
 ### Servisi Yeniden Başlat
 
-**Dikkat:** Yeniden başlatma sırasında bağlı tüm istemcilerin bağlantısı geçici
-olarak kesilir.
+**Dikkat:** Yeniden başlatma sırasında bağlı tüm istemcilerin bağlantısı geçici olarak kesilir.
 
-<details>
-<summary>CLI Önizleme</summary>
-
-![Servisi Yeniden Başlat](assets/recordings/restart-service-dark.gif#gh-dark-mode-only)
-![Servisi Yeniden Başlat](assets/recordings/restart-service-light.gif#gh-light-mode-only)
-
-</details>
+<div class="asciinema-player-container">
+    <div class="asciinema-player-header">
+        <h3>Phantom WireGuard</h3>
+        <span class="asciinema-player-info">CLI Önizleme</span>
+    </div>
+    <div class="asciinema-player-wrapper">
+        <div class="asciinema-player" 
+             data-cast-file="recordings/api/restart-service"
+             data-cols="120"
+             data-rows="48"
+             data-autoplay="false"
+             data-loop="false"
+             data-speed="1.5"
+             data-theme="solarized-dark"
+             data-font-size="small">
+        </div>
+    </div>
+</div>
 
 ```bash
 phantom-api core restart_service
 ```
-
 
 **Yanıt:**
 ```json
@@ -521,13 +591,24 @@ phantom-api core restart_service
 
 ### Güvenlik Duvarı Durumu
 
-<details>
-<summary>CLI Önizleme</summary>
-
-![Güvenlik Duvarı Durumu](assets/recordings/firewall-status-dark.gif#gh-dark-mode-only)
-![Güvenlik Duvarı Durumu](assets/recordings/firewall-status-light.gif#gh-light-mode-only)
-
-</details>
+<div class="asciinema-player-container">
+    <div class="asciinema-player-header">
+        <h3>Phantom WireGuard</h3>
+        <span class="asciinema-player-info">CLI Önizleme</span>
+    </div>
+    <div class="asciinema-player-wrapper">
+        <div class="asciinema-player" 
+             data-cast-file="recordings/api/firewall-status"
+             data-cols="120"
+             data-rows="48"
+             data-autoplay="false"
+             data-loop="false"
+             data-speed="1.5"
+             data-theme="solarized-dark"
+             data-font-size="small">
+        </div>
+    </div>
+</div>
 
 ```bash
 phantom-api core get_firewall_status
@@ -573,13 +654,24 @@ phantom-api core get_firewall_status
 
 ### Tweak Ayarları
 
-<details>
-<summary>CLI Önizleme</summary>
-
-![Tweak Ayarları](assets/recordings/tweak-settings-dark.gif#gh-dark-mode-only)
-![Tweak Ayarları](assets/recordings/tweak-settings-light.gif#gh-light-mode-only)
-
-</details>
+<div class="asciinema-player-container">
+    <div class="asciinema-player-header">
+        <h3>Phantom WireGuard</h3>
+        <span class="asciinema-player-info">CLI Önizleme</span>
+    </div>
+    <div class="asciinema-player-wrapper">
+        <div class="asciinema-player" 
+             data-cast-file="recordings/api/tweak-settings"
+             data-cols="120"
+             data-rows="48"
+             data-autoplay="false"
+             data-loop="false"
+             data-speed="1.5"
+             data-theme="solarized-dark"
+             data-font-size="small">
+        </div>
+    </div>
+</div>
 
 ```bash
 # Tüm tweak ayarlarını al
@@ -614,13 +706,24 @@ phantom-api core update_tweak_setting setting_name="restart_service_after_client
 
 ### Varsayılan Subnet'i Değiştir
 
-<details>
-<summary>CLI Önizleme</summary>
-
-![Varsayılan Subnet'i Değiştir](assets/recordings/change-subnet-dark.gif#gh-dark-mode-only)
-![Varsayılan Subnet'i Değiştir](assets/recordings/change-subnet-light.gif#gh-light-mode-only)
-
-</details>
+<div class="asciinema-player-container">
+    <div class="asciinema-player-header">
+        <h3>Phantom WireGuard</h3>
+        <span class="asciinema-player-info">CLI Önizleme</span>
+    </div>
+    <div class="asciinema-player-wrapper">
+        <div class="asciinema-player" 
+             data-cast-file="recordings/api/change-subnet"
+             data-cols="120"
+             data-rows="48"
+             data-autoplay="false"
+             data-loop="false"
+             data-speed="1.5"
+             data-theme="solarized-dark"
+             data-font-size="small">
+        </div>
+    </div>
+</div>
 
 ```bash
 # Mevcut subnet bilgisini al
@@ -766,13 +869,24 @@ phantom-api core change_subnet new_subnet="192.168.100.0/24" confirm=true
 
 ## DNS Modülü
 
-<details>
-<summary>CLI Önizleme</summary>
-
-![DNS Modülü](assets/recordings/dns-compact-dark.gif#gh-dark-mode-only)
-![DNS Modülü](assets/recordings/dns-compact-light.gif#gh-light-mode-only)
-
-</details>
+<div class="asciinema-player-container">
+    <div class="asciinema-player-header">
+        <h3>Phantom WireGuard</h3>
+        <span class="asciinema-player-info">CLI Önizleme</span>
+    </div>
+    <div class="asciinema-player-wrapper">
+        <div class="asciinema-player" 
+             data-cast-file="recordings/api/dns-compact"
+             data-cols="120"
+             data-rows="48"
+             data-autoplay="false"
+             data-loop="false"
+             data-speed="1.5"
+             data-theme="solarized-dark"
+             data-font-size="small">
+        </div>
+    </div>
+</div>
 
 ### DNS Sunucularını Değiştir
 
@@ -960,13 +1074,24 @@ phantom-api dns get_dns_servers
 
 ## Ghost Modülü
 
-<details>
-<summary>CLI Önizleme</summary>
-
-![Ghost Modülü](assets/recordings/ghost-compact-dark.gif#gh-dark-mode-only)
-![Ghost Modülü](assets/recordings/ghost-compact-light.gif#gh-light-mode-only)
-
-</details>
+<div class="asciinema-player-container">
+    <div class="asciinema-player-header">
+        <h3>Phantom WireGuard</h3>
+        <span class="asciinema-player-info">CLI Önizleme</span>
+    </div>
+    <div class="asciinema-player-wrapper">
+        <div class="asciinema-player" 
+             data-cast-file="recordings/api/ghost-compact"
+             data-cols="120"
+             data-rows="48"
+             data-autoplay="false"
+             data-loop="false"
+             data-speed="1.5"
+             data-theme="solarized-dark"
+             data-font-size="small">
+        </div>
+    </div>
+</div>
 
 ### Ghost Mode'u Etkinleştir
 
@@ -1165,13 +1290,24 @@ Phantom sunucusunun veya istemcinin gerçek adresi gizli kalır. Multihop, stand
 WireGuard yapılandırma dosyalarını içe aktararak çalışır; bu nedenle WireGuard destekleyen
 herhangi bir VPN sağlayıcısıyla uyumludur.
 
-<details>
-<summary>CLI Önizleme</summary>
-
-![Multihop Modülü](assets/recordings/multihop-compact-dark.gif#gh-dark-mode-only)
-![Multihop Modülü](assets/recordings/multihop-compact-light.gif#gh-light-mode-only)
-
-</details>
+<div class="asciinema-player-container">
+    <div class="asciinema-player-header">
+        <h3>Phantom WireGuard</h3>
+        <span class="asciinema-player-info">CLI Önizleme</span>
+    </div>
+    <div class="asciinema-player-wrapper">
+        <div class="asciinema-player" 
+             data-cast-file="recordings/api/multihop-compact"
+             data-cols="120"
+             data-rows="48"
+             data-autoplay="false"
+             data-loop="false"
+             data-speed="1.5"
+             data-theme="solarized-dark"
+             data-font-size="small">
+        </div>
+    </div>
+</div>
 
 ### VPN Yapılandırmasını İçe Aktar
 
@@ -1453,15 +1589,3 @@ Bu dokümantasyon Phantom-WireGuard API **core-v1** sürümünü kapsar.
 > **Not:** Dokümantasyondaki CLI önizleme kayıtlarında görünen sunucu bilgileri, IP
 > adresleri ve istemci verileri, yalnızca bu içeriklerin oluşturulması amacıyla geçici
 > olarak kurulan ve sonrasında kalıcı olarak kapatılan bir test sunucusunda üretilmiştir.
-
----
-
-<!--suppress HtmlDeprecatedAttribute -->
-
-<div align="center">
-
-![ARTEK Logo](assets/phantom-horizontal-master-midnight-phantom.svg#gh-light-mode-only)
-![ARTEK Logo](assets/phantom-horizontal-master-stellar-silver.svg#gh-dark-mode-only)
-
-</div>
-

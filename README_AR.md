@@ -86,7 +86,7 @@ API Example:
 إدارة العملاء، توليد المفاتيح التشفيرية، تخصيص عناوين IP تلقائيًا، والتحكم
 بالخدمات من واجهة مركزية واحدة.
 
-![Core Flow](assets/flow-diagrams/connection-flow-core.svg)
+![Core Flow](documentation/docs/assets/static/images/index/flow-diagrams/connection-flow-core.svg)
 
 **الميزات الرئيسية:**
 - إضافة/إزالة العملاء ومشاركة الإعدادات عبر رمز QR
@@ -103,7 +103,7 @@ API Example:
 وجّه حركة مرورك عبر خوادم WireGuard خارجية. أنشئ طبقة تشفير مزدوجة
 باستخدام خوادمك الخاصة أو مزودي VPN التجاريين.
 
-![Multihop Flow](assets/flow-diagrams/connection-flow-multihop.svg)
+![Multihop Flow](documentation/docs/assets/static/images/index/flow-diagrams/connection-flow-multihop.svg)
 
 **الميزات الرئيسية:**
 - استيراد أي ملف إعدادات WireGuard
@@ -120,7 +120,7 @@ API Example:
 يُموَّه اتصال WireGuard الخاص بك ليبدو كحركة مرور HTTPS عادية. تجاوز أنظمة
 الفحص العميق للحزم (DPI) وحجب جدران الحماية للحصول على اتصال مقاوم للرقابة.
 
-![Ghost Flow](assets/flow-diagrams/connection-flow-ghost.svg)
+![Ghost Flow](documentation/docs/assets/static/images/index/flow-diagrams/connection-flow-ghost.svg)
 
 **الميزات الرئيسية:**
 - نفق عبر WebSocket (عبر wstunnel)
@@ -136,7 +136,7 @@ API Example:
 ادمج وحدتي Ghost و Multihop للحصول على أعلى مستوى من الخصوصية ومقاومة
 الرقابة. يُموَّه اتصالك كحركة HTTPS ويُوجَّه عبر طبقة VPN مزدوجة.
 
-![MultiGhost Flow](assets/flow-diagrams/connection-flow-multighost.svg)
+![MultiGhost Flow](documentation/docs/assets/static/images/index/flow-diagrams/connection-flow-multighost.svg)
 
 **التفعيل:**
 ```bash
