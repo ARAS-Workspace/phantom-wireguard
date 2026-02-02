@@ -556,10 +556,17 @@ body::before {
     margin-bottom: 4px;
 }
 
-.copyright-trademark {
+.copyright-disclaimer {
+    font-family: var(--font-system), sans-serif;
     font-size: 12px;
     color: var(--text-secondary);
     margin-top: 8px;
+}
+
+.copyright-trademark {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
     padding-top: 8px;
     border-top: 1px solid var(--border-light);
     display: inline-block;

@@ -179,5 +179,6 @@ class ContentProcessor:
         return {
             'links': post.metadata.get('links', []),
             'copyright': content_lines[0] if content_lines else post.metadata.get('copyright', ''),
-            'trademark': content_lines[1] if len(content_lines) > 1 else post.metadata.get('trademark', '')
+            'disclaimer': content_lines[1] if len(content_lines) > 1 else '',
+            'trademark': content_lines[2] if len(content_lines) > 2 else post.metadata.get('trademark', '')
         }

@@ -12,4 +12,6 @@ links:
 
 © 2025 Rıza Emre ARAS - All Rights Reserved
 
-WireGuard® is a registered trademark of Jason A. Donenfeld.
+Bu proje; Jason A. Donenfeld, ZX2C4 veya Edge Security ile herhangi bir şekilde bağlantılı, ortaklı, yetkili veya onaylı değildir.
+
+WireGuard® Jason A. Donenfeld'in tescilli ticari markasıdır.

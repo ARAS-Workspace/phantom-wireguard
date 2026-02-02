@@ -173,6 +173,16 @@ phantom-api multihop enable_multihop exit_name="vpn-exit"
 
 ---
 
+## إشعار العلامة التجارية
+
+هذا المشروع هو تطبيق مستقل لإدارة VPN يستخدم بروتوكول [WireGuard](https://www.wireguard.com/).
+لا توجد أي علاقة أو ارتباط أو تفويض أو مصادقة أو اتصال رسمي بأي شكل من الأشكال مع
+Jason A. Donenfeld أو ZX2C4 أو Edge Security.
+
+WireGuard® هي علامة تجارية مسجلة لـ Jason A. Donenfeld.
+
+---
+
 ## الترخيص
 
 Copyright (c) 2025 Rıza Emre ARAS <r.emrearas@proton.me>
@@ -181,7 +191,18 @@ Copyright (c) 2025 Rıza Emre ARAS <r.emrearas@proton.me>
 
 لتراخيص الأطراف الثالثة، راجع [THIRD_PARTY_LICENSES](THIRD_PARTY_LICENSES).
 
-WireGuard® هي علامة تجارية مسجلة لـ Jason A. Donenfeld.
+---
+
+## 🎖️ شكر وتقدير
+
+لم يكن هذا المشروع ممكنًا بدون المشاريع مفتوحة المصدر التالية:
+
+- **[WireGuard](https://www.wireguard.com/)**
+- **[wstunnel](https://github.com/erebe/wstunnel)**
+- **[Let's Encrypt](https://letsencrypt.org/)**
+- **[Rich](https://github.com/Textualize/rich)**
+- **[TinyDB](https://github.com/msiemens/tinydb)**
+- **[qrcode](https://github.com/lincolnloop/python-qrcode)**
 
 ---
 
