@@ -2,6 +2,13 @@
 
 [![Release Workflow](https://github.com/ARAS-Workspace/phantom-wg/actions/workflows/release-workflow.yml/badge.svg)](https://github.com/ARAS-Workspace/phantom-wg/actions/workflows/release-workflow.yml)
 
+> [!IMPORTANT]
+> **Brand Rename: Phantom-WireGuard → Phantom-WG**
+>
+> The project has been renamed from **Phantom-WireGuard** to **Phantom-WG**. This was a detail initially overlooked during early development that became significant as the project approached its pre-release stage. Trademark notices have been updated and legal compliance has been ensured. See [PR #1](https://github.com/ARAS-Workspace/phantom-wg/pull/1) for details.
+>
+> Visual and animated content — asciinema `.cast` recordings and `.gif` files generated from them via `agg` — currently still reflect the old brand name. These assets will be updated and replaced by **February 5, 2026, 00:00 (UTC+3, Turkey Time)**. Any content that does not yet reflect the current branding will be corrected by that date.
+
 ```bash
 ██████╗ ██╗  ██╗ █████╗ ███╗   ██╗████████╗ ██████╗ ███╗   ███╗
 ██╔══██╗██║  ██║██╔══██╗████╗  ██║╚══██╔══╝██╔═══██╗████╗ ████║
