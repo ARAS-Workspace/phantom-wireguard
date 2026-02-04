@@ -51,8 +51,10 @@ plugins:
           nav_translations:
             Home: Ana Sayfa
             API: API
-            Video Tutorials: Video Rehberler
-            Core: Core
+            Video Showcase: Video Vitrin
+            Test Environment: Test Ortamı
+            Modules: Modüller
+            Core: Çekirdek (Core)
             Add Client: İstemci Ekle
             Remove Client: İstemci Kaldır
             List Clients: İstemcileri Listele
@@ -67,7 +69,7 @@ plugins:
             DNS: DNS
             Ghost: Ghost
             Multihop: Multihop
-            Compact: Kompakt
+            Complete Workflow: Tam İş Akışı
 
 
 markdown_extensions:
@@ -101,25 +103,28 @@ markdown_extensions:
 nav:
   - Home: index.md
   - API: api.md
-  - Video Tutorials:
-    - Core:
-      - Add Client: video-tutorials/core/add-client.md
-      - Remove Client: video-tutorials/core/remove-client.md
-      - List Clients: video-tutorials/core/list-clients.md
-      - Export Config: video-tutorials/core/export-client.md
-      - Server Status: video-tutorials/core/server-status.md
-      - Service Logs: video-tutorials/core/service-logs.md
-      - Latest Clients: video-tutorials/core/recent-clients.md
-      - Restart Service: video-tutorials/core/restart-service.md
-      - Firewall Status: video-tutorials/core/firewall-status.md
-      - Tweak Settings: video-tutorials/core/tweak-settings.md
-      - Change Subnet: video-tutorials/core/change-subnet.md
-    - DNS:
-      - Compact: video-tutorials/dns/compact.md
-    - Ghost:
-      - Compact: video-tutorials/ghost/compact.md
-    - Multihop:
-      - Compact: video-tutorials/multihop/compact.md
+  - Video Showcase:
+      - Test Environment: video-showcase/test-environment.md
+      - Modules:
+          - Core:
+              - Add Client: video-showcase/modules/core/add-client.md
+              - Remove Client: video-showcase/modules/core/remove-client.md
+              - List Clients: video-showcase/modules/core/list-clients.md
+              - Export Config: video-showcase/modules/core/export-client.md
+              - Server Status: video-showcase/modules/core/server-status.md
+              - Service Logs: video-showcase/modules/core/service-logs.md
+              - Latest Clients: video-showcase/modules/core/recent-clients.md
+              - Restart Service: video-showcase/modules/core/restart-service.md
+              - Firewall Status: video-showcase/modules/core/firewall-status.md
+              - Tweak Settings: video-showcase/modules/core/tweak-settings.md
+              - Change Subnet: video-showcase/modules/core/change-subnet.md
+          - DNS:
+              - Complete Workflow: video-showcase/modules/dns/compact.md
+          - Ghost:
+              - Complete Workflow: video-showcase/modules/ghost/compact.md
+          - Multihop:
+              - Complete Workflow: video-showcase/modules/multihop/compact.md
+
 
 extra:
   social:
