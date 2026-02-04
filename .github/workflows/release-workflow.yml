@@ -80,7 +80,6 @@ jobs:
           rm -rf release_temp/phantom/reports 2>/dev/null || true
           rm -rf release_temp/phantom/api/tests 2>/dev/null || true
           rm -rf release_temp/phantom/bin/tests 2>/dev/null || true
-          rm -rf release_temp/phantom/bin/docs 2>/dev/null || true
           rm -rf release_temp/phantom/models/tests 2>/dev/null || true
           rm -rf release_temp/phantom/modules/README.md 2>/dev/null || true
           rm -rf release_temp/phantom/modules/README_TR.md 2>/dev/null || true

@@ -95,7 +95,7 @@ control are managed from a single interface.
 - Firewall management
 - Subnet changes and IP remapping
 
-> **Detailed Usage:** [API Documentation - Core Module](phantom/bin/docs/API.md#core-module)
+> **Detailed Usage:** [API Documentation - Core Module](https://docs.phantom.tc/api/#core-module)
 
 ---
 
@@ -112,7 +112,7 @@ layer using your own servers or commercial VPN providers.
 - Connection monitoring and automatic reconnection
 - VPN connection tests
 
-> **Detailed Usage:** [API Documentation - Multihop Module](phantom/bin/docs/API.md#multihop-module)
+> **Detailed Usage:** [API Documentation - Multihop Module](https://docs.phantom.tc/api/#multihop-module)
 
 ---
 
@@ -128,7 +128,7 @@ Inspection) systems and firewall blocks for censorship-resistant connectivity.
 - Automatic Let's Encrypt SSL certificates
 - Client configuration export via `phantom-casper`
 
-> **Detailed Usage:** [API Documentation - Ghost Module](phantom/bin/docs/API.md#ghost-module)
+> **Detailed Usage:** [API Documentation - Ghost Module](https://docs.phantom.tc/api/#ghost-module)
 
 ---
 
@@ -151,7 +151,7 @@ phantom-api multihop import_vpn_config config_path="/path/to/vpn.conf"
 phantom-api multihop enable_multihop exit_name="vpn-exit"
 ```
 
-> **Detailed Usage:** [API Documentation - Full Censorship Resistance](phantom/bin/docs/API.md#enable-full-censorship-resistance)
+> **Detailed Usage:** [API Documentation - Full Censorship Resistance](https://docs.phantom.tc/api/#enable-full-censorship-resistance)
 
 ---
 
@@ -169,7 +169,7 @@ phantom-api multihop enable_multihop exit_name="vpn-exit"
 
 | Document                                         | Description                            |
 |--------------------------------------------------|----------------------------------------|
-| [API Documentation](phantom/bin/docs/API.md)     | Detailed reference for all API actions |
+| [API Documentation](https://docs.phantom.tc/api) | Detailed reference for all API actions |
 | [Module Architecture](phantom/modules/README.md) | Technical architecture and data models |
 
 ---
@@ -228,7 +228,7 @@ bc1qnjjrsfdatnc2qtjpkzwpgxpmnj3v4tdduykz57
 
 <div align="center">
 
-![Phantom Logo](phantom/bin/docs/assets/phantom-horizontal-master-midnight-phantom.svg#gh-light-mode-only)
-![Phantom Logo](phantom/bin/docs/assets/phantom-horizontal-master-stellar-silver.svg#gh-dark-mode-only)
+![Phantom Logo](documentation/docs/assets/static/images/phantom-horizontal-master-midnight-phantom.svg#gh-light-mode-only)
+![Phantom Logo](documentation/docs/assets/static/images/phantom-horizontal-master-stellar-silver.svg#gh-dark-mode-only)
 
 </div>

@@ -88,7 +88,7 @@ tek merkezden yönetilir.
 - Güvenlik duvarı yönetimi
 - Subnet değişikliği ve IP yeniden haritalama
 
-> **Detaylı Kullanım:** [API Dökümanı - Core Modülü](phantom/bin/docs/API_TR.md#core-modülü)
+> **Detaylı Kullanım:** [API Dökümanı - Core Modülü](https://docs.phantom.tc/tr/api/#core-modulu)
 
 ---
 
@@ -105,7 +105,7 @@ ticari VPN sağlayıcılarını kullanarak çift şifreleme katmanı oluşturun.
 - Bağlantı izleme ve otomatik yeniden bağlanma
 - VPN bağlantı testleri
 
-> **Detaylı Kullanım:** [API Dökümanı - Multihop Modülü](phantom/bin/docs/API_TR.md#multihop-modülü)
+> **Detaylı Kullanım:** [API Dökümanı - Multihop Modülü](https://docs.phantom.tc/tr/api/#multihop-modulu)
 
 ---
 
@@ -121,7 +121,7 @@ sistemlerini ve güvenlik duvarı engellemelerini atlayarak sansüre dirençli b
 - Otomatik Let's Encrypt SSL sertifikası
 - `phantom-casper` ile istemci yapılandırma dışa aktarımı
 
-> **Detaylı Kullanım:** [API Dökümanı - Ghost Modülü](phantom/bin/docs/API_TR.md#ghost-modülü)
+> **Detaylı Kullanım:** [API Dökümanı - Ghost Modülü](https://docs.phantom.tc/tr/api/#ghost-modulu)
 
 ---
 
@@ -145,7 +145,7 @@ phantom-api multihop import_vpn_config config_path="/path/to/vpn.conf"
 phantom-api multihop enable_multihop exit_name="vpn-exit"
 ```
 
-> **Detaylı Kullanım:** [API Dökümanı - Tam Sansür Dayanıklılığı](phantom/bin/docs/API_TR.md#tam-sansür-dayanıklılığını-etkinleştir)
+> **Detaylı Kullanım:** [API Dökümanı - Tam Sansür Dayanıklılığı](https://docs.phantom.tc/tr/api/#tam-sansur-dayankllgn-etkinlestir)
 
 ---
 
@@ -161,10 +161,10 @@ phantom-api multihop enable_multihop exit_name="vpn-exit"
 
 ## Dökümanlar
 
-| Döküman                                           | Açıklama                                |
-|---------------------------------------------------|-----------------------------------------|
-| [API Dökümanı (TR)](phantom/bin/docs/API_TR.md)   | Tüm API eylemlerinin detaylı açıklaması |
-| [Modül Mimarisi](phantom/modules/README_TR.md)    | Teknik mimari ve veri modelleri         |
+| Döküman                                              | Açıklama                                |
+|------------------------------------------------------|-----------------------------------------|
+| [API Dökümanı (TR)](https://docs.phantom.tc/tr/api/) | Tüm API eylemlerinin detaylı açıklaması |
+| [Modül Mimarisi](phantom/modules/README_TR.md)       | Teknik mimari ve veri modelleri         |
 
 ---
 
@@ -221,7 +221,7 @@ bc1qnjjrsfdatnc2qtjpkzwpgxpmnj3v4tdduykz57
 
 <div align="center">
 
-![Phantom Logo](phantom/bin/docs/assets/phantom-horizontal-master-midnight-phantom.svg#gh-light-mode-only)
-![Phantom Logo](phantom/bin/docs/assets/phantom-horizontal-master-stellar-silver.svg#gh-dark-mode-only)
+![Phantom Logo](documentation/docs/assets/static/images/phantom-horizontal-master-midnight-phantom.svg#gh-light-mode-only)
+![Phantom Logo](documentation/docs/assets/static/images/phantom-horizontal-master-stellar-silver.svg#gh-dark-mode-only)
 
 </div>
