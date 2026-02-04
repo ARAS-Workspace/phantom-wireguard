@@ -11,12 +11,12 @@ arkasındaki mantığı açıklamaktadır.
 FRA1 (Frankfurt) veri merkezi bölgesinde dört adet sunucu konumlandırılmıştır.
 Her sunucu, aynı teknik özelliklere sahip minimal bir Debian kurulumu çalıştırmaktadır.
 
-| Rol    | Hostname | İS            |
-|--------|----------|---------------|
-| Master | master   | Debian 13 x64 |
-| Server | server   | Debian 13 x64 |
-| Exit   | exit     | Debian 13 x64 |
-| Client | client   | Debian 13 x64 |
+| Rol    | Sunucu Adı (hostname) | İşletim Sistemi |
+|--------|-----------------------|-----------------|
+| Master | master                | Debian 13 x64   |
+| Server | server                | Debian 13 x64   |
+| Exit   | exit                  | Debian 13 x64   |
+| Client | client                | Debian 13 x64   |
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=d96aacce70d1&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
