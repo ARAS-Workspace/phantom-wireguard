@@ -63,7 +63,6 @@ curl -sSL https://install.phantom.tc | bash
              data-loop="false"
              data-speed="1.5"
              data-poster=npt:00:05
-             data-theme="solarized-dark"
              data-font-size="small">
         </div>
     </div>
@@ -99,7 +98,6 @@ phantom-wg
              data-loop="false"
              data-speed="1.5"             
              data-poster=npt:00:05
-             data-theme="solarized-dark"
              data-font-size="small">
         </div>
     </div>
@@ -119,7 +117,6 @@ phantom-wg
      data-autoplay="false"
      data-loop="false"
      data-speed="1.5"
-     data-theme="solarized-dark"
      data-font-size="small">
 </div>
 
@@ -155,7 +152,6 @@ curl -4 ifconfig.io
              data-loop="false"
              data-speed="1.5"
              data-poster=npt:00:05
-             data-theme="solarized-dark"
              data-font-size="small">
         </div>
     </div>

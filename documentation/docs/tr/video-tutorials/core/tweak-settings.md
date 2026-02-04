@@ -16,7 +16,6 @@ extra_javascript:
              data-autoplay="false"
              data-loop="false"
              data-speed="1.5"
-             data-theme="solarized-dark"
              data-font-size="small"
              data-poster="npt:0">
         </div>

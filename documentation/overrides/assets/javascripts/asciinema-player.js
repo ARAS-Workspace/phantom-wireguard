@@ -22,32 +22,60 @@
 
 /* global AsciinemaPlayer */
 
-// Initialize Phantom modules namespace
+// ─── Default Configuration ──────────────────────────────────────────────────
+const PLAYER_CONFIG = {
+    cols: 120,
+    rows: 48,
+    autoPlay: false,
+    preload: true,
+    loop: false,
+    startAt: 0,
+    speed: 1.5,
+    fontSize: 'small',
+    poster: 'npt:0:3',
+    fit: false,
+    themes: {
+        dark: 'solarized-dark',    // used when data-md-color-scheme="slate"
+        light: 'solarized-light'   // used when data-md-color-scheme="default"
+    }
+};
+
+// ─── Player Registry ────────────────────────────────────────────────────────
+// Stores element → { castFile, options } for recreation on theme change
+const playerRegistry = new Map();
+
+// ─── Initialize Phantom modules namespace ───────────────────────────────────
 window.PhantomModules = window.PhantomModules || {};
 
-// Helper function to resolve cast file paths
+// ─── Theme Detection ────────────────────────────────────────────────────────
+function getCurrentAsciinemaTheme() {
+    const scheme = document.body.getAttribute('data-md-color-scheme');
+    return scheme === 'slate' ? PLAYER_CONFIG.themes.dark : PLAYER_CONFIG.themes.light;
+}
+
+// ─── Helper: Resolve cast file paths ────────────────────────────────────────
 function resolveCastFilePath(path) {
     // If path starts with / or http, return as-is (absolute path or URL)
     // noinspection HttpUrlsUsage - Support both HTTP and HTTPS for flexibility
     if (path.startsWith('/') || path.startsWith('http://') || path.startsWith('https://')) {
         return path;
     }
-    
+
     // If path doesn't contain ../, assume it's relative to docs/assets/static/
     if (!path.includes('../')) {
         return '/assets/static/' + path;
     }
-    
+
     // Otherwise, try to resolve relative path
     // Get current page path
     const currentPath = window.location.pathname;
     const pathParts = currentPath.split('/').filter(Boolean);
-    
+
     // Remove filename from path
     if (pathParts[pathParts.length - 1].includes('.')) {
         pathParts.pop();
     }
-    
+
     // Apply relative path
     const castPathParts = path.split('/');
     for (const part of castPathParts) {
@@ -57,28 +85,28 @@ function resolveCastFilePath(path) {
             pathParts.push(part);
         }
     }
-    
+
     return '/' + pathParts.join('/');
 }
 
-// Helper function to get player options from element attributes
+// ─── Helper: Get player options from element attributes ─────────────────────
 function getPlayerOptions(element) {
     return {
-        cols: parseInt(element.getAttribute('data-cols')) || 100,
-        rows: parseInt(element.getAttribute('data-rows')) || 30,
-        autoPlay: element.getAttribute('data-autoplay') === 'true',
-        preload: element.getAttribute('data-preload') !== 'false',
-        loop: element.getAttribute('data-loop') === 'true',
-        startAt: parseFloat(element.getAttribute('data-start-at')) || 0,
-        speed: parseFloat(element.getAttribute('data-speed')) || 1,
-        theme: element.getAttribute('data-theme') || 'solarized-dark',
-        poster: element.getAttribute('data-poster') || 'npt:0:3',
-        fit: element.getAttribute('data-fit') === 'true',
-        terminalFontSize: element.getAttribute('data-font-size') || 'medium'
+        cols: parseInt(element.getAttribute('data-cols')) || PLAYER_CONFIG.cols,
+        rows: parseInt(element.getAttribute('data-rows')) || PLAYER_CONFIG.rows,
+        autoPlay: element.getAttribute('data-autoplay') === 'true' || PLAYER_CONFIG.autoPlay,
+        preload: element.getAttribute('data-preload') !== 'false' && PLAYER_CONFIG.preload,
+        loop: element.getAttribute('data-loop') === 'true' || PLAYER_CONFIG.loop,
+        startAt: parseFloat(element.getAttribute('data-start-at')) || PLAYER_CONFIG.startAt,
+        speed: parseFloat(element.getAttribute('data-speed')) || PLAYER_CONFIG.speed,
+        theme: getCurrentAsciinemaTheme(),
+        poster: element.getAttribute('data-poster') || PLAYER_CONFIG.poster,
+        fit: element.getAttribute('data-fit') === 'true' || PLAYER_CONFIG.fit,
+        terminalFontSize: element.getAttribute('data-font-size') || PLAYER_CONFIG.fontSize
     };
 }
 
-// Helper function to mark pre elements to avoid badges
+// ─── Helper: Mark pre elements to avoid badges ─────────────────────────────
 function markPreElementsNoBadge(element) {
     setTimeout(function() {
         const preElements = element.querySelectorAll('pre');
@@ -88,23 +116,26 @@ function markPreElementsNoBadge(element) {
     }, 100);
 }
 
-// Helper function to create and initialize Asciinema player
+// ─── Helper: Create and initialize Asciinema player ─────────────────────────
 function createAsciinemaPlayer(element, castFile, playerOptions) {
+    // Register player for theme-change recreation
+    playerRegistry.set(element, { castFile: castFile, options: playerOptions });
+
     // Add loading state and spinner
     element.classList.add('loading');
     const spinner = document.createElement('div');
     spinner.className = 'player-spinner';
     spinner.innerHTML = '<div class="spinner-inner"></div>';
     element.appendChild(spinner);
-    
+
     // Resolve cast file path
     const resolvedPath = resolveCastFilePath(castFile);
-    
+
     try {
         // Use promise to handle async loading
         // noinspection JSUnresolvedVariable
         const playerPromise = AsciinemaPlayer.create(resolvedPath, element, playerOptions);
-        
+
         // Handle player ready state
         if (playerPromise && typeof playerPromise.then === 'function') {
             playerPromise.then(function() {
@@ -144,37 +175,53 @@ function createAsciinemaPlayer(element, castFile, playerOptions) {
     }
 }
 
-// Define initialization function for lazy loading
+// ─── Reinitialize all players (theme change) ────────────────────────────────
+function reinitializeAllPlayers() {
+    playerRegistry.forEach(function(entry, element) {
+        // Clear rendered player
+        element.innerHTML = '';
+        element.classList.remove('initialized');
+
+        // Rebuild options with the new theme
+        const updatedOptions = getPlayerOptions(element);
+
+        // Recreate the player
+        createAsciinemaPlayer(element, entry.castFile, updatedOptions);
+        element.classList.add('initialized');
+    });
+}
+
+// ─── Define initialization function for lazy loading ────────────────────────
 window.PhantomModules.initAsciinema = function() {
     // Find all asciinema player elements
     const playerElements = document.querySelectorAll('.asciinema-player:not(.initialized)');
-    
+
     playerElements.forEach(function(element) {
         const castFile = element.getAttribute('data-cast-file');
         const playerId = element.getAttribute('id') || 'player-' + Math.random().toString(36).substring(2, 11);
-        
+
         if (!castFile) {
             console.error('No cast file specified for player element');
             return;
         }
-        
+
         // Get player configuration
         const playerOptions = getPlayerOptions(element);
-        
+
         // Set ID if not already set
         if (!element.id) {
             element.id = playerId;
         }
-        
+
         // Mark as initialized
         element.classList.add('initialized');
-        
+
         // Create player using helper function
         createAsciinemaPlayer(element, castFile, playerOptions);
     });
 };
 
-// Also support traditional loading (backward compatibility)
+// ─── Traditional loading (backward compatibility) ───────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
     // If AsciinemaPlayer is already loaded (non-lazy loading), initialize immediately
     if (typeof AsciinemaPlayer !== 'undefined' && !window.PhantomModules.asciinemaInitialized) {
@@ -183,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Handle dynamic content (e.g., when switching tabs)
+// ─── Observers ──────────────────────────────────────────────────────────────
 if (typeof MutationObserver !== 'undefined') {
     // Helper function to initialize a player element
     function initializePlayer(element) {
@@ -191,16 +238,17 @@ if (typeof MutationObserver !== 'undefined') {
         // noinspection JSUnresolvedVariable
         if (castFile && typeof AsciinemaPlayer !== 'undefined') {
             element.classList.add('initialized');
-            
+
             // Get player configuration using the helper function
             const playerOptions = getPlayerOptions(element);
-            
+
             // Create player using helper function
             createAsciinemaPlayer(element, castFile, playerOptions);
         }
     }
-    
-    const observer = new MutationObserver(function(mutations) {
+
+    // Watch for dynamically added player elements (e.g., when switching tabs)
+    new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             mutation.addedNodes.forEach(function(node) {
                 if (node.nodeType === 1) { // Element node
@@ -209,7 +257,15 @@ if (typeof MutationObserver !== 'undefined') {
                 }
             });
         });
-    });
-    
-    observer.observe(document.body, { childList: true, subtree: true });
+    }).observe(document.body, { childList: true, subtree: true });
+
+    // Watch for MkDocs Material theme toggle (data-md-color-scheme changes)
+    new MutationObserver(function(mutations) {
+        for (let i = 0; i < mutations.length; i++) {
+            if (mutations[i].attributeName === 'data-md-color-scheme') {
+                reinitializeAllPlayers();
+                break;
+            }
+        }
+    }).observe(document.body, { attributes: true, attributeFilter: ['data-md-color-scheme'] });
 }
