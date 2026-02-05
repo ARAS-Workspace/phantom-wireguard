@@ -17,7 +17,7 @@ extra_javascript:
              data-loop="false"
              data-speed="1.5"
              data-font-size="small"
-             data-poster="npt:0">
+             data-poster="text">
         </div>
     </div>
 </div>

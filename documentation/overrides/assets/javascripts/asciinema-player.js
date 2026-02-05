@@ -44,6 +44,24 @@ const PLAYER_CONFIG = {
 // Stores element → { castFile, options } for recreation on theme change
 const playerRegistry = new Map();
 
+// ─── Poster Text ───────────────────────────────────────────────────────────
+// Used when data-poster="text" is set on a player element
+// Supports ANSI escape codes: \x1b[1;32m (bold green), \x1b[3B (3 lines down)
+// Line separator: \n\r (as required by asciinema player poster format)
+const POSTER_TEXT = [
+    '██████╗ ██╗  ██╗ █████╗ ███╗   ██╗████████╗ ██████╗ ███╗   ███╗',
+    '██╔══██╗██║  ██║██╔══██╗████╗  ██║╚══██╔══╝██╔═══██╗████╗ ████║',
+    '██████╔╝███████║███████║██╔██╗ ██║   ██║   ██║   ██║██╔████╔██║',
+    '██╔═══╝ ██╔══██║██╔══██║██║╚██╗██║   ██║   ██║   ██║██║╚██╔╝██║',
+    '██║     ██║  ██║██║  ██║██║ ╚████║   ██║   ╚██████╔╝██║ ╚═╝ ██║',
+    '╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝     ╚═╝',
+    '',
+    'Copyright (c) 2025 Rıza Emre ARAS',
+    'Licensed under AGPL-3.0 - see LICENSE file for details',
+    'Third-party licenses - see THIRD_PARTY_LICENSES file for details',
+    'WireGuard® is a registered trademark of Jason A. Donenfeld.'
+].join('\n\r');
+
 // ─── Initialize Phantom modules namespace ───────────────────────────────────
 window.PhantomModules = window.PhantomModules || {};
 window.PhantomModules._playerRegistry = playerRegistry;
@@ -90,6 +108,14 @@ function resolveCastFilePath(path) {
     return '/' + pathParts.join('/');
 }
 
+// ─── Helper: Resolve poster value ──────────────────────────────────────────
+function resolvePoster(value) {
+    if (value === 'text') {
+        return 'data:text/plain,' + POSTER_TEXT;
+    }
+    return value || PLAYER_CONFIG.poster;
+}
+
 // ─── Helper: Get player options from element attributes ─────────────────────
 function getPlayerOptions(element) {
     return {
@@ -101,7 +127,7 @@ function getPlayerOptions(element) {
         startAt: parseFloat(element.getAttribute('data-start-at')) || PLAYER_CONFIG.startAt,
         speed: parseFloat(element.getAttribute('data-speed')) || PLAYER_CONFIG.speed,
         theme: getCurrentAsciinemaTheme(),
-        poster: element.getAttribute('data-poster') || PLAYER_CONFIG.poster,
+        poster: resolvePoster(element.getAttribute('data-poster')),
         fit: element.getAttribute('data-fit') === 'true' || PLAYER_CONFIG.fit,
         terminalFontSize: element.getAttribute('data-font-size') || PLAYER_CONFIG.fontSize
     };
@@ -192,9 +218,8 @@ function reinitializeAllPlayers() {
     });
 }
 
-// ─── Define initialization function for lazy loading ────────────────────────
-window.PhantomModules.initAsciinema = function() {
-    // Find all asciinema player elements
+// ─── Initialize all uninitialized players on the page ───────────────────────
+function initPlayers() {
     const playerElements = document.querySelectorAll('.asciinema-player:not(.initialized)');
 
     playerElements.forEach(function(element) {
@@ -220,6 +245,11 @@ window.PhantomModules.initAsciinema = function() {
         // Create player using helper function
         createAsciinemaPlayer(element, castFile, playerOptions);
     });
+}
+
+// ─── Define initialization function for lazy loading ────────────────────────
+window.PhantomModules.initAsciinema = function() {
+    initPlayers();
 };
 
 // ─── Traditional loading (backward compatibility) ───────────────────────────
