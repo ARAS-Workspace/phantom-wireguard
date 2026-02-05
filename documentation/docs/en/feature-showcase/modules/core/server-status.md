@@ -16,7 +16,7 @@ extra_css:
     </div>
     <div class="asciinema-player-wrapper">
         <div class="asciinema-player"
-             data-cast-file="recordings/feature-showcase/server-status"
+             data-cast-file="recordings/feature-showcase/server_status"
              data-cast-file-api="recordings/api/server_status"
              data-cols="120"
              data-rows="48"
