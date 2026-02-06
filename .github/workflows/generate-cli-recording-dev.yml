@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 env:
-  RECORDINGS_DIR: documentation/tools/scripts/recording_automations_api/recordings/cli
+  RECORDER_DIR: documentation/tools/scripts/phantom-recorder
   AGG_IMAGE: ghcr.io/asciinema/agg:latest
 
 jobs:
@@ -37,7 +37,8 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y asciinema expect
+          sudo apt-get install -y asciinema
+          pip install -r ${{ env.RECORDER_DIR }}/requirements.txt
 
       # ─────────────────────────────────────────────────────────────
       # Pull agg Docker Image
@@ -46,43 +47,44 @@ jobs:
         run: docker pull ${{ env.AGG_IMAGE }}
 
       # ─────────────────────────────────────────────────────────────
-      # Generate Recording
+      # Generate Recordings
       # ─────────────────────────────────────────────────────────────
       - name: Record Interactive CLI
+        working-directory: ${{ env.RECORDER_DIR }}
         env:
           TERM: xterm-256color
         run: |
-          cd documentation/tools/scripts/recording_automations_api
-          mkdir -p recordings/cli
-          chmod +x cli/interactive_cli.exp
-
-          asciinema rec \
-            --cols 120 \
-            --rows 48 \
-            --idle-time-limit 2 \
-            -t "interactive_cli" \
-            -c "expect cli/interactive_cli.exp" \
-            recordings/cli/interactive_cli.cast
+          python3 phantom_recorder.py workflows/interactive-cli.yaml
 
       # ─────────────────────────────────────────────────────────────
       # Convert .cast to .gif
       # ─────────────────────────────────────────────────────────────
-      - name: Convert Recording to GIF
+      - name: Convert Recordings to GIF
+        working-directory: ${{ env.RECORDER_DIR }}
         run: |
-          echo "Converting .cast to .gif..."
+          echo "Converting .cast files to .gif..."
 
-          docker run --rm \
-            -v "$(pwd)/${{ env.RECORDINGS_DIR }}:/data" \
-            ${{ env.AGG_IMAGE }} \
-            "/data/interactive_cli.cast" \
-            "/data/interactive_cli.gif" \
-            --font-size 14 \
-            --cols 120 \
-            --rows 48
+          for cast_file in recordings/*.cast; do
+            [ -f "$cast_file" ] || continue
+
+            filename=$(basename "$cast_file" .cast)
+            gif_file="recordings/${filename}.gif"
+
+            echo "  Converting: $filename.cast → $filename.gif"
+
+            docker run --rm \
+              -v "$(pwd)/recordings:/data" \
+              ${{ env.AGG_IMAGE }} \
+              "/data/${filename}.cast" \
+              "/data/${filename}.gif" \
+              --font-size 14 \
+              --cols 120 \
+              --rows 48
+          done
 
           echo ""
           echo "Conversion complete. Files:"
-          ls -la ${{ env.RECORDINGS_DIR }}/
+          ls -la recordings/
 
       # ─────────────────────────────────────────────────────────────
       # Upload Artifacts
@@ -92,6 +94,6 @@ jobs:
         with:
           name: cli-recording-${{ github.run_id }}
           path: |
-            ${{ env.RECORDINGS_DIR }}/*.cast
-            ${{ env.RECORDINGS_DIR }}/*.gif
+            ${{ env.RECORDER_DIR }}/recordings/*.cast
+            ${{ env.RECORDER_DIR }}/recordings/*.gif
           retention-days: 90

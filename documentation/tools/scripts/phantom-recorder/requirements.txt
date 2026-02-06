@@ -1,0 +1,3 @@
+# Phantom Recorder Requirements
+pyyaml>=6.0
+pexpect>=4.8
