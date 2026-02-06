@@ -1,19 +1,14 @@
-name: Generate API Recordings (Dev)
+name: Generate CLI Recordings
 
 on:
   workflow_dispatch:
-    inputs:
-      record_limit:
-        description: 'Number of scripts to record (0 = all)'
-        required: false
-        type: number
-        default: 0
 
 permissions:
   contents: read
 
 env:
-  RECORDINGS_DIR: documentation/tools/scripts/recording_automations_api/recordings/api
+  RECORDER_SRC: documentation/tools/scripts/phantom-recorder
+  RECORDER_DIR: /tmp/rec
   AGG_IMAGE: ghcr.io/asciinema/agg:latest
 
 jobs:
@@ -43,7 +38,13 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y asciinema jq
+          sudo apt-get install -y asciinema
+          pip install -r ${{ env.RECORDER_SRC }}/requirements.txt
+
+      - name: Setup Recorder Directory
+        run: |
+          cp -r ${{ env.RECORDER_SRC }} ${{ env.RECORDER_DIR }}
+          echo "Recorder copied to ${{ env.RECORDER_DIR }}"
 
       # ─────────────────────────────────────────────────────────────
       # Pull agg Docker Image
@@ -54,36 +55,36 @@ jobs:
       # ─────────────────────────────────────────────────────────────
       # Generate Recordings
       # ─────────────────────────────────────────────────────────────
-      - name: Generate API Recordings
-        working-directory: documentation/tools/scripts/recording_automations_api
+      - name: Record All Workflows
+        working-directory: ${{ env.RECORDER_DIR }}
         env:
           TERM: xterm-256color
-          UNVEIL_DELAY: "0.04"
-          RECORD_LIMIT: ${{ inputs.record_limit }}
         run: |
-          chmod +x automate.sh
-          chmod +x api/*.sh
-
-          echo "RECORD_LIMIT=$RECORD_LIMIT"
-          sudo -E ./automate.sh
+          for workflow in workflows/*.yaml; do
+            [ -f "$workflow" ] || continue
+            echo "Recording: $workflow"
+            python3 phantom_recorder.py "$workflow"
+            echo ""
+          done
 
       # ─────────────────────────────────────────────────────────────
       # Convert .cast to .gif
       # ─────────────────────────────────────────────────────────────
       - name: Convert Recordings to GIF
+        working-directory: ${{ env.RECORDER_DIR }}
         run: |
           echo "Converting .cast files to .gif..."
 
-          for cast_file in ${{ env.RECORDINGS_DIR }}/*.cast; do
+          for cast_file in recordings/*.cast; do
             [ -f "$cast_file" ] || continue
 
             filename=$(basename "$cast_file" .cast)
-            gif_file="${{ env.RECORDINGS_DIR }}/${filename}.gif"
+            gif_file="recordings/${filename}.gif"
 
             echo "  Converting: $filename.cast → $filename.gif"
 
             docker run --rm \
-              -v "$(pwd)/${{ env.RECORDINGS_DIR }}:/data" \
+              -v "$(pwd)/recordings:/data" \
               ${{ env.AGG_IMAGE }} \
               "/data/${filename}.cast" \
               "/data/${filename}.gif" \
@@ -94,7 +95,7 @@ jobs:
 
           echo ""
           echo "Conversion complete. Files:"
-          ls -la ${{ env.RECORDINGS_DIR }}/
+          ls -la recordings/
 
       # ─────────────────────────────────────────────────────────────
       # Upload Artifacts
@@ -102,8 +103,8 @@ jobs:
       - name: Upload Recordings Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: api-recordings-${{ github.run_id }}
+          name: cli-recordings-${{ github.run_id }}
           path: |
-            ${{ env.RECORDINGS_DIR }}/*.cast
-            ${{ env.RECORDINGS_DIR }}/*.gif
+            ${{ env.RECORDER_DIR }}/recordings/*.cast
+            ${{ env.RECORDER_DIR }}/recordings/*.gif
           retention-days: 90
