@@ -20,6 +20,7 @@ LIMIT="${RECORD_LIMIT:-0}"
 
 # ─── Script Order (logical flow) ────────────────────────────────
 SCRIPTS=(
+    # Core Module
     "server_status"
     "add_client"
     "list_clients"
@@ -31,6 +32,8 @@ SCRIPTS=(
     "service_logs"
     "restart_service"
     "remove_client"
+    # DNS Module
+    "dns_compact"
 )
 
 mkdir -p "$CAST_DIR"
