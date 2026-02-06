@@ -11,7 +11,7 @@ on:
 
 env:
   DO_REGION: fra1
-  DO_SIZE: s-1vcpu-1gb
+  DO_SIZE: s-2vcpu-4gb
   VPC_SUBNET: "10.10.0.0/16"
   # Snapshot IDs (fixed)
   SNAPSHOT_MASTER: "216070980"
@@ -67,13 +67,28 @@ jobs:
         run: |
           SESSION_ID="${{ steps.session.outputs.SESSION_ID }}"
 
+          echo "Creating VPC: ${SESSION_ID}-vpc"
+          echo "Region: ${{ env.DO_REGION }}"
+          echo "IP Range: ${{ env.VPC_SUBNET }}"
+
           VPC_JSON=$(doctl vpcs create \
             --name "${SESSION_ID}-vpc" \
             --region ${{ env.DO_REGION }} \
             --ip-range ${{ env.VPC_SUBNET }} \
-            --output json)
+            --output json 2>&1) || {
+            echo "VPC creation failed:"
+            echo "$VPC_JSON"
+            exit 1
+          }
 
-          VPC_ID=$(echo "$VPC_JSON" | jq -r '.[0].id')
+          echo "VPC Response: $VPC_JSON"
+
+          VPC_ID=$(echo "$VPC_JSON" | jq -r '.[0].id // .id // empty')
+
+          if [ -z "$VPC_ID" ]; then
+            echo "Failed to parse VPC ID from response"
+            exit 1
+          fi
 
           echo "VPC_ID=$VPC_ID" >> $GITHUB_OUTPUT
           echo "Created VPC: ${SESSION_ID}-vpc ($VPC_ID)"
@@ -90,53 +105,40 @@ jobs:
           echo "Creating droplets in VPC: $VPC_ID"
           echo ""
 
-          # Create master
-          MASTER_JSON=$(doctl compute droplet create "${SESSION_ID}-master" \
-            --image ${{ env.SNAPSHOT_MASTER }} \
-            --size ${{ env.DO_SIZE }} \
-            --region ${{ env.DO_REGION }} \
-            --vpc-uuid $VPC_ID \
-            --wait \
-            --output json)
-          MASTER_ID=$(echo "$MASTER_JSON" | jq -r '.[0].id')
-          echo "MASTER_ID=$MASTER_ID" >> $GITHUB_OUTPUT
-          echo "Created: master ($MASTER_ID)"
+          create_droplet() {
+            local name=$1
+            local image=$2
+            local var_name=$3
 
-          # Create server
-          SERVER_JSON=$(doctl compute droplet create "${SESSION_ID}-server" \
-            --image ${{ env.SNAPSHOT_SERVER }} \
-            --size ${{ env.DO_SIZE }} \
-            --region ${{ env.DO_REGION }} \
-            --vpc-uuid $VPC_ID \
-            --wait \
-            --output json)
-          SERVER_ID=$(echo "$SERVER_JSON" | jq -r '.[0].id')
-          echo "SERVER_ID=$SERVER_ID" >> $GITHUB_OUTPUT
-          echo "Created: server ($SERVER_ID)"
+            echo "Creating $name with image $image..."
 
-          # Create client
-          CLIENT_JSON=$(doctl compute droplet create "${SESSION_ID}-client" \
-            --image ${{ env.SNAPSHOT_CLIENT }} \
-            --size ${{ env.DO_SIZE }} \
-            --region ${{ env.DO_REGION }} \
-            --vpc-uuid $VPC_ID \
-            --wait \
-            --output json)
-          CLIENT_ID=$(echo "$CLIENT_JSON" | jq -r '.[0].id')
-          echo "CLIENT_ID=$CLIENT_ID" >> $GITHUB_OUTPUT
-          echo "Created: client ($CLIENT_ID)"
+            RESULT=$(doctl compute droplet create "${SESSION_ID}-${name}" \
+              --image "$image" \
+              --size ${{ env.DO_SIZE }} \
+              --region ${{ env.DO_REGION }} \
+              --vpc-uuid "$VPC_ID" \
+              --wait \
+              --output json 2>&1) || {
+              echo "Failed to create $name:"
+              echo "$RESULT"
+              return 1
+            }
 
-          # Create exit
-          EXIT_JSON=$(doctl compute droplet create "${SESSION_ID}-exit" \
-            --image ${{ env.SNAPSHOT_EXIT }} \
-            --size ${{ env.DO_SIZE }} \
-            --region ${{ env.DO_REGION }} \
-            --vpc-uuid $VPC_ID \
-            --wait \
-            --output json)
-          EXIT_ID=$(echo "$EXIT_JSON" | jq -r '.[0].id')
-          echo "EXIT_ID=$EXIT_ID" >> $GITHUB_OUTPUT
-          echo "Created: exit ($EXIT_ID)"
+            ID=$(echo "$RESULT" | jq -r '.[0].id // empty')
+            if [ -z "$ID" ]; then
+              echo "Failed to parse ID for $name"
+              echo "Response: $RESULT"
+              return 1
+            fi
+
+            echo "${var_name}=$ID" >> $GITHUB_OUTPUT
+            echo "Created: $name ($ID)"
+          }
+
+          create_droplet "master" "${{ env.SNAPSHOT_MASTER }}" "MASTER_ID"
+          create_droplet "server" "${{ env.SNAPSHOT_SERVER }}" "SERVER_ID"
+          create_droplet "client" "${{ env.SNAPSHOT_CLIENT }}" "CLIENT_ID"
+          create_droplet "exit" "${{ env.SNAPSHOT_EXIT }}" "EXIT_ID"
 
       # ─────────────────────────────────────────────────────────────
       # Assign Resources to Project
