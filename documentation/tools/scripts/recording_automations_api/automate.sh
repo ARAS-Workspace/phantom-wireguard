@@ -61,7 +61,7 @@ for name in "${SCRIPTS[@]}"; do
         -c "bash '$script'" \
         "$cast_file" || echo "Failed: $name"
 
-    ((count++))
+    count=$((count + 1))
     sleep 1
 done
 
