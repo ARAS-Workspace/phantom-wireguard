@@ -121,7 +121,7 @@ jobs:
         env:
           TERM: xterm-256color
           UNVEIL_DELAY: "0.04"
-          RECORD_LIMIT: ${{ inputs.test_mode == true && '3' || '0' }}
+          RECORD_LIMIT: ${{ inputs.test_mode && '3' || '0' }}
         run: |
           chmod +x automate.sh
           chmod +x api/*.sh
