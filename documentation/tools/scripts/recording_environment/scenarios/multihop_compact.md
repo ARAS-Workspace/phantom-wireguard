@@ -69,7 +69,7 @@ exit
 
 ---
 
-### 4. MASTER - Config dosyasını transfer et
+### 4. MASTER - Config dosyasını transfer et[known_hosts](../../../../../../../.ssh/known_hosts)
 
 ```bash
 scp exit:exit-client.conf .

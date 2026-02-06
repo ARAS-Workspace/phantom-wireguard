@@ -40,6 +40,7 @@ Kayıt senaryoları: `documentation/tools/scripts/recording_environment/scenario
 
 | Dosya                 | Açıklama                         |
 |-----------------------|----------------------------------|
+| `installation.md`     | Sıfırdan kurulum adımları        |
 | `multihop_compact.md` | Multihop VPN kurulum adımları    |
 | `ghost_compact.md`    | Ghost Mode kurulum adımları      |
 

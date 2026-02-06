@@ -40,6 +40,7 @@ Recording scenarios: `documentation/tools/scripts/recording_environment/scenario
 
 | File                  | Description                      |
 |-----------------------|----------------------------------|
+| `installation.md`     | Fresh installation steps         |
 | `multihop_compact.md` | Multihop VPN setup steps         |
 | `ghost_compact.md`    | Ghost Mode setup steps           |
 
