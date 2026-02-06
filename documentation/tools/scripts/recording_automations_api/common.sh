@@ -14,6 +14,18 @@ COMMON_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=config.sh
 source "$COMMON_DIR/config.sh"
 
+# ─── Phantom-API Wrapper (unveil effect) ──────────────────────
+
+# Override phantom-api to add unveil effect for recordings
+phantom-api() {
+    local d=${UNVEIL_DELAY:-0.04}
+    command phantom-api "$@" | while IFS= read -r l; do
+        printf '%s\n' "$l"
+        sleep "$d"
+    done
+    sleep 1
+}
+
 # ─── Functions ────────────────────────────────────────────────
 
 # Natural typing effect - simulates human typing
@@ -146,5 +158,5 @@ info() {
 set -euo pipefail
 
 # Export functions for subshells
-export -f type_text run_command run_silent do_clear show_header
+export -f phantom-api type_text run_command run_silent do_clear show_header
 export -f show_motd ssh_connect create_test_clients cleanup_clients wait_seconds info

@@ -4,6 +4,9 @@
 # ═══════════════════════════════════════════════════════════════
 # Records all API scripts in logical order.
 # Output: ./recordings/api/<script>.cast
+#
+# Environment:
+#   RECORD_LIMIT - Limit number of recordings (0 = unlimited)
 # ═══════════════════════════════════════════════════════════════
 
 set -euo pipefail
@@ -13,6 +16,7 @@ CAST_DIR="./recordings/api"
 COLS=120
 ROWS=48
 IDLE_LIMIT=2
+LIMIT="${RECORD_LIMIT:-0}"
 
 # ─── Script Order (logical flow) ────────────────────────────────
 SCRIPTS=(
@@ -31,7 +35,14 @@ SCRIPTS=(
 
 mkdir -p "$CAST_DIR"
 
+count=0
 for name in "${SCRIPTS[@]}"; do
+    # Check limit
+    if [[ "$LIMIT" -gt 0 && "$count" -ge "$LIMIT" ]]; then
+        echo "Limit reached ($LIMIT recordings). Stopping."
+        break
+    fi
+
     script="$SCRIPT_DIR/api/${name}.sh"
 
     if [[ ! -f "$script" ]]; then
@@ -50,7 +61,8 @@ for name in "${SCRIPTS[@]}"; do
         -c "bash '$script'" \
         "$cast_file" || echo "Failed: $name"
 
+    ((count++))
     sleep 1
 done
 
-echo "Done. Output: $CAST_DIR/"
+echo "Done. Recorded $count files. Output: $CAST_DIR/"
