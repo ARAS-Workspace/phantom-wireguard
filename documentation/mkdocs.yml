@@ -91,6 +91,7 @@ plugins:
             Common Operations: Yaygın İşlemler
             Advanced Usage: Gelişmiş Kullanım
             References: Referanslar
+            Environments: Test Ortamları
 
 
 markdown_extensions:
@@ -145,6 +146,7 @@ nav:
           - Multihop:
               - Complete Workflow: feature-showcase/modules/multihop/compact.md
       - References: feature-showcase/references.md
+      - Environments: feature-showcase/environments.md
   - API Documentation:
       - Overview: api/index.md
       - Modules:
