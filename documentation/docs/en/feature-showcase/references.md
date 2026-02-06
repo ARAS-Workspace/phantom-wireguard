@@ -17,7 +17,7 @@ documentation/docs/assets/static/recordings/feature-showcase/
 
 **Directory:** `api/`
 
-**Workflow:** [generate-api-recordings.yml](https://github.com/remrearas/phantom-wg/blob/main/.github/workflows/generate-api-recordings.yml)
+**Workflow:** [generate-api-recordings.yml](https://github.com/ARAS-Workspace/phantom-wg/blob/main/.github/workflows/generate-api-recordings.yml)
 
 Automated recording of scripts using `phantom-api` commands. Manually triggered via `workflow_dispatch` on GitHub Actions.
 
@@ -50,7 +50,7 @@ Automated recording of scripts using `phantom-api` commands. Manually triggered 
 
 **Directory:** `cli/`
 
-**Workflow:** [generate-cli-recordings.yml](https://github.com/remrearas/phantom-wg/blob/main/.github/workflows/generate-cli-recordings.yml)
+**Workflow:** [generate-cli-recordings.yml](https://github.com/ARAS-Workspace/phantom-wg/blob/main/.github/workflows/generate-cli-recordings.yml)
 
 Automated recording of the interactive `phantom-wg` menu. Works with YAML-based workflow definitions.
 

@@ -17,7 +17,7 @@ documentation/docs/assets/static/recordings/feature-showcase/
 
 **Dizin:** `api/`
 
-**Workflow:** [generate-api-recordings.yml](https://github.com/remrearas/phantom-wg/blob/main/.github/workflows/generate-api-recordings.yml)
+**Workflow:** [generate-api-recordings.yml](https://github.com/ARAS-Workspace/phantom-wg/blob/main/.github/workflows/generate-api-recordings.yml)
 
 `phantom-api` komutlarını kullanan scriptlerin otomatik kaydı. GitHub Actions üzerinde `workflow_dispatch` ile manuel tetiklenir.
 
@@ -50,7 +50,7 @@ documentation/docs/assets/static/recordings/feature-showcase/
 
 **Dizin:** `cli/`
 
-**Workflow:** [generate-cli-recordings.yml](https://github.com/remrearas/phantom-wg/blob/main/.github/workflows/generate-cli-recordings.yml)
+**Workflow:** [generate-cli-recordings.yml](https://github.com/ARAS-Workspace/phantom-wg/blob/main/.github/workflows/generate-cli-recordings.yml)
 
 İnteraktif `phantom-wg` menüsünün otomatik kaydı. YAML tabanlı workflow tanımları ile çalışır.
 
