@@ -1,0 +1,214 @@
+name: Setup Recording Environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      session_name:
+        description: 'Session name (e.g., ghost-recording, multihop-test)'
+        required: true
+        type: string
+        default: 'recording-session'
+
+env:
+  DO_REGION: fra1
+  DO_SIZE: s-1vcpu-1gb
+  VPC_SUBNET: "10.10.0.0/16"
+  # Snapshot IDs (fixed)
+  SNAPSHOT_MASTER: "216070980"
+  SNAPSHOT_SERVER: "216070984"
+  SNAPSHOT_CLIENT: "216070988"
+  SNAPSHOT_EXIT: "216070991"
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_TOKEN }}
+
+      - name: Generate Session ID
+        id: session
+        run: |
+          TIMESTAMP=$(date +%s)
+          SESSION_ID="phantom-${{ inputs.session_name }}-${TIMESTAMP}"
+          echo "SESSION_ID=$SESSION_ID" >> $GITHUB_OUTPUT
+          echo "Session ID: $SESSION_ID"
+
+      # ─────────────────────────────────────────────────────────────
+      # Create Project
+      # ─────────────────────────────────────────────────────────────
+      - name: Create Project
+        id: project
+        run: |
+          SESSION_ID="${{ steps.session.outputs.SESSION_ID }}"
+
+          PROJECT_ID=$(doctl projects create \
+            --name "$SESSION_ID" \
+            --purpose "Recording session" \
+            --environment "Development" \
+            --format ID \
+            --no-header)
+
+          echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_OUTPUT
+          echo "Created project: $SESSION_ID ($PROJECT_ID)"
+
+      # ─────────────────────────────────────────────────────────────
+      # Create VPC
+      # ─────────────────────────────────────────────────────────────
+      - name: Create VPC
+        id: vpc
+        run: |
+          SESSION_ID="${{ steps.session.outputs.SESSION_ID }}"
+
+          VPC_ID=$(doctl vpcs create \
+            --name "${SESSION_ID}-vpc" \
+            --region ${{ env.DO_REGION }} \
+            --ip-range ${{ env.VPC_SUBNET }} \
+            --format ID \
+            --no-header)
+
+          echo "VPC_ID=$VPC_ID" >> $GITHUB_OUTPUT
+          echo "Created VPC: ${SESSION_ID}-vpc ($VPC_ID)"
+
+      # ─────────────────────────────────────────────────────────────
+      # Create Droplets
+      # ─────────────────────────────────────────────────────────────
+      - name: Create Droplets
+        id: droplets
+        run: |
+          VPC_ID="${{ steps.vpc.outputs.VPC_ID }}"
+          SESSION_ID="${{ steps.session.outputs.SESSION_ID }}"
+
+          echo "Creating droplets in VPC: $VPC_ID"
+          echo ""
+
+          # Create master
+          MASTER_ID=$(doctl compute droplet create "${SESSION_ID}-master" \
+            --image ${{ env.SNAPSHOT_MASTER }} \
+            --size ${{ env.DO_SIZE }} \
+            --region ${{ env.DO_REGION }} \
+            --vpc-uuid $VPC_ID \
+            --wait \
+            --format ID \
+            --no-header)
+          echo "MASTER_ID=$MASTER_ID" >> $GITHUB_OUTPUT
+          echo "Created: master ($MASTER_ID)"
+
+          # Create server
+          SERVER_ID=$(doctl compute droplet create "${SESSION_ID}-server" \
+            --image ${{ env.SNAPSHOT_SERVER }} \
+            --size ${{ env.DO_SIZE }} \
+            --region ${{ env.DO_REGION }} \
+            --vpc-uuid $VPC_ID \
+            --wait \
+            --format ID \
+            --no-header)
+          echo "SERVER_ID=$SERVER_ID" >> $GITHUB_OUTPUT
+          echo "Created: server ($SERVER_ID)"
+
+          # Create client
+          CLIENT_ID=$(doctl compute droplet create "${SESSION_ID}-client" \
+            --image ${{ env.SNAPSHOT_CLIENT }} \
+            --size ${{ env.DO_SIZE }} \
+            --region ${{ env.DO_REGION }} \
+            --vpc-uuid $VPC_ID \
+            --wait \
+            --format ID \
+            --no-header)
+          echo "CLIENT_ID=$CLIENT_ID" >> $GITHUB_OUTPUT
+          echo "Created: client ($CLIENT_ID)"
+
+          # Create exit
+          EXIT_ID=$(doctl compute droplet create "${SESSION_ID}-exit" \
+            --image ${{ env.SNAPSHOT_EXIT }} \
+            --size ${{ env.DO_SIZE }} \
+            --region ${{ env.DO_REGION }} \
+            --vpc-uuid $VPC_ID \
+            --wait \
+            --format ID \
+            --no-header)
+          echo "EXIT_ID=$EXIT_ID" >> $GITHUB_OUTPUT
+          echo "Created: exit ($EXIT_ID)"
+
+      # ─────────────────────────────────────────────────────────────
+      # Assign Resources to Project
+      # ─────────────────────────────────────────────────────────────
+      - name: Assign Resources to Project
+        run: |
+          PROJECT_ID="${{ steps.project.outputs.PROJECT_ID }}"
+
+          doctl projects resources assign $PROJECT_ID \
+            --resource=do:droplet:${{ steps.droplets.outputs.MASTER_ID }} \
+            --resource=do:droplet:${{ steps.droplets.outputs.SERVER_ID }} \
+            --resource=do:droplet:${{ steps.droplets.outputs.CLIENT_ID }} \
+            --resource=do:droplet:${{ steps.droplets.outputs.EXIT_ID }}
+
+          echo "All droplets assigned to project"
+
+      # ─────────────────────────────────────────────────────────────
+      # Display Results
+      # ─────────────────────────────────────────────────────────────
+      - name: Display Environment Info
+        run: |
+          SESSION_ID="${{ steps.session.outputs.SESSION_ID }}"
+
+          # Get private IPs
+          MASTER_IP=$(doctl compute droplet get ${{ steps.droplets.outputs.MASTER_ID }} --format PrivateIPv4 --no-header)
+          SERVER_IP=$(doctl compute droplet get ${{ steps.droplets.outputs.SERVER_ID }} --format PrivateIPv4 --no-header)
+          CLIENT_IP=$(doctl compute droplet get ${{ steps.droplets.outputs.CLIENT_ID }} --format PrivateIPv4 --no-header)
+          EXIT_IP=$(doctl compute droplet get ${{ steps.droplets.outputs.EXIT_ID }} --format PrivateIPv4 --no-header)
+
+          # Get public IPs for SSH
+          MASTER_PUBLIC=$(doctl compute droplet get ${{ steps.droplets.outputs.MASTER_ID }} --format PublicIPv4 --no-header)
+
+          echo ""
+          echo "════════════════════════════════════════════════════════════"
+          echo "  RECORDING ENVIRONMENT READY"
+          echo "════════════════════════════════════════════════════════════"
+          echo ""
+          echo "Session:  $SESSION_ID"
+          echo "Project:  ${{ steps.project.outputs.PROJECT_ID }}"
+          echo "VPC:      ${{ steps.vpc.outputs.VPC_ID }}"
+          echo "Region:   ${{ env.DO_REGION }}"
+          echo ""
+          echo "────────────────────────────────────────────────────────────"
+          echo "  DROPLET IP ADDRESSES"
+          echo "────────────────────────────────────────────────────────────"
+
+          doctl compute droplet list \
+            --format Name,PublicIPv4,PrivateIPv4,Status \
+            --no-header | grep "$SESSION_ID"
+
+          echo ""
+          echo "────────────────────────────────────────────────────────────"
+          echo "  MASTER SETUP COMMAND"
+          echo "────────────────────────────────────────────────────────────"
+          echo ""
+          echo "SSH into master and run:"
+          echo "  ssh root@${MASTER_PUBLIC}"
+          echo ""
+          echo "Then execute:"
+          echo "cat >> /etc/hosts << EOF"
+          echo "${MASTER_IP} master"
+          echo "${SERVER_IP} server"
+          echo "${CLIENT_IP} client"
+          echo "${EXIT_IP} exit"
+          echo "EOF"
+          echo ""
+          echo "────────────────────────────────────────────────────────────"
+          echo "  CLEANUP COMMANDS"
+          echo "────────────────────────────────────────────────────────────"
+          echo ""
+          echo "# Delete all droplets:"
+          echo "doctl compute droplet delete ${SESSION_ID}-master ${SESSION_ID}-server ${SESSION_ID}-client ${SESSION_ID}-exit --force"
+          echo ""
+          echo "# Delete VPC:"
+          echo "doctl vpcs delete ${{ steps.vpc.outputs.VPC_ID }} --force"
+          echo ""
+          echo "# Delete project:"
+          echo "doctl projects delete ${{ steps.project.outputs.PROJECT_ID }} --force"
+          echo ""
+          echo "════════════════════════════════════════════════════════════"
