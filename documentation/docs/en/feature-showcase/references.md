@@ -21,7 +21,7 @@ documentation/docs/assets/static/recordings/feature-showcase/
 
 Automated recording of scripts using `phantom-api` commands. Manually triggered via `workflow_dispatch` on GitHub Actions.
 
-**Recording Tool:** `documentation/tools/scripts/recording_automations_api/`
+**Recording Tool:** `tools/recording-utilities/recording_automations_api/`
 
 | File          | Description                                   |
 |---------------|-----------------------------------------------|
@@ -54,7 +54,7 @@ Automated recording of scripts using `phantom-api` commands. Manually triggered 
 
 Automated recording of the interactive `phantom-wg` menu. Works with YAML-based workflow definitions.
 
-**Recording Tool:** `documentation/tools/scripts/phantom-recorder/`
+**Recording Tool:** `tools/recording-utilities/phantom-recorder/`
 
 | File                  | Description                           |
 |-----------------------|---------------------------------------|
@@ -74,7 +74,7 @@ Automated recording of the interactive `phantom-wg` menu. Works with YAML-based 
 Scenarios recorded manually in the test environment. Used for recordings that require multiple servers
 and complex configurations.
 
-**Scenario Documents:** `documentation/tools/scripts/recording_environment/scenarios/`
+**Scenario Documents:** `tools/recording-utilities/recording_environment/scenarios/`
 
 - `multihop_compact.md` - Multihop VPN setup scenario
 - `ghost_compact.md` - Ghost Mode setup scenario

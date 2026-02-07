@@ -36,7 +36,7 @@ Recordings captured in this environment:
 
 ### Scenario Files
 
-Recording scenarios: `documentation/tools/scripts/recording_environment/scenarios/`
+Recording scenarios: `tools/recording-utilities/recording_environment/scenarios/`
 
 | File                  | Description                      |
 |-----------------------|----------------------------------|

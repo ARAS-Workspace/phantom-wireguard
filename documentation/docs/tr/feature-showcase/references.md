@@ -21,7 +21,7 @@ documentation/docs/assets/static/recordings/feature-showcase/
 
 `phantom-api` komutlarını kullanan scriptlerin otomatik kaydı. GitHub Actions üzerinde `workflow_dispatch` ile manuel tetiklenir.
 
-**Kayıt Aracı:** `documentation/tools/scripts/recording_automations_api/`
+**Kayıt Aracı:** `tools/recording-utilities/recording_automations_api/`
 
 | Dosya         | Açıklama                                      |
 |---------------|-----------------------------------------------|
@@ -54,7 +54,7 @@ documentation/docs/assets/static/recordings/feature-showcase/
 
 İnteraktif `phantom-wg` menüsünün otomatik kaydı. YAML tabanlı workflow tanımları ile çalışır.
 
-**Kayıt Aracı:** `documentation/tools/scripts/phantom-recorder/`
+**Kayıt Aracı:** `tools/recording-utilities/phantom-recorder/`
 
 | Dosya                 | Açıklama                           |
 |-----------------------|------------------------------------|
@@ -74,7 +74,7 @@ documentation/docs/assets/static/recordings/feature-showcase/
 Test ortamında manuel olarak kaydedilen senaryolar. Birden fazla sunucu gerektiren durumlarda alınması gereken kayıtlar 
 ve karmaşık yapılandırmalar için kullanılır.
 
-**Senaryo Dökümanları:** `documentation/tools/scripts/recording_environment/scenarios/`
+**Senaryo Dökümanları:** `tools/recording-utilities/recording_environment/scenarios/`
 
 - `multihop_compact.md` - Multihop VPN kurulum senaryosu
 - `ghost_compact.md` - Ghost Mode kurulum senaryosu

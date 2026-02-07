@@ -27,7 +27,7 @@ run_command 'phantom-api core add_client client_name="temp-client"' 1.5
 do_clear
 
 # ─── Step 3: Show clients before removal ────────────────────
-run_command 'phantom-api core list_clients' "$PAUSE_AFTER_EXEC"
+run_command 'phantom-api core list_clients per_page=15' "$PAUSE_AFTER_EXEC"
 
 do_clear
 
@@ -37,7 +37,7 @@ run_command 'phantom-api core remove_client client_name="temp-client"' "$PAUSE_A
 do_clear
 
 # ─── Step 5: Verify removal ─────────────────────────────────
-run_command 'phantom-api core list_clients' "$PAUSE_AFTER_EXEC_LONG"
+run_command 'phantom-api core list_clients per_page=15' "$PAUSE_AFTER_EXEC_LONG"
 
 # ─── End ────────────────────────────────────────────────────
 sleep 1.0

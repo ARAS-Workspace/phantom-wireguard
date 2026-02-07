@@ -13,7 +13,7 @@ permissions:
   contents: write
 
 env:
-  RECORDINGS_DIR: documentation/tools/scripts/recording_automations_api/recordings/api
+  RECORDINGS_DIR: tools/recording-utilities/recording_automations_api/recordings/api
   AGG_IMAGE: ghcr.io/asciinema/agg:latest
 
 jobs:
@@ -55,7 +55,7 @@ jobs:
       # Generate Recordings
       # ─────────────────────────────────────────────────────────────
       - name: Generate API Recordings
-        working-directory: documentation/tools/scripts/recording_automations_api
+        working-directory: tools/recording-utilities/recording_automations_api
         env:
           TERM: xterm-256color
           UNVEIL_DELAY: "0.04"

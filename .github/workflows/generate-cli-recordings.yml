@@ -7,7 +7,7 @@ permissions:
   contents: write
 
 env:
-  RECORDER_SRC: documentation/tools/scripts/phantom-recorder
+  RECORDER_SRC: tools/recording-utilities/phantom-recorder
   RECORDER_DIR: /tmp/rec
   AGG_IMAGE: ghcr.io/asciinema/agg:latest
 

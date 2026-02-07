@@ -36,7 +36,7 @@ Bu ortamda çekilen kayıtlar:
 
 ### Senaryo Dosyaları
 
-Kayıt senaryoları: `documentation/tools/scripts/recording_environment/scenarios/`
+Kayıt senaryoları: `tools/recording-utilities/recording_environment/scenarios/`
 
 | Dosya                 | Açıklama                         |
 |-----------------------|----------------------------------|
