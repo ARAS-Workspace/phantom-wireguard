@@ -12,6 +12,7 @@ source "$SCRIPT_DIR/../common.sh"
 
 # ═══════════════════════════════════════════════════════════════
 # SCENARIO FLOW
+# Uses "alice-laptop" created by list_clients.sh
 # ═══════════════════════════════════════════════════════════════
 
 # ─── Step 0: Initial setup ──────────────────────────────────
@@ -21,24 +22,19 @@ sleep 0.5
 # ─── Step 1: SSH into the server ────────────────────────────
 ssh_connect
 
-# ─── Step 2: Create a client to export ──────────────────────
-run_command 'phantom-api core add_client client_name="export-demo"' 1.5
+# ─── Step 2: Export client (full JSON response) ─────────────
+run_command 'phantom-api core export_client client_name="alice-laptop"' "$PAUSE_AFTER_EXEC_LONG"
 
 do_clear
 
-# ─── Step 3: Export client (full JSON response) ─────────────
-run_command 'phantom-api core export_client client_name="export-demo"' "$PAUSE_AFTER_EXEC_LONG"
+# ─── Step 3: Export and extract config with jq ──────────────
+run_command "phantom-api core export_client client_name=\"alice-laptop\" | jq -r '.data.config'" "$PAUSE_AFTER_EXEC_LONG"
 
 do_clear
 
-# ─── Step 4: Export and extract config with jq ──────────────
-run_command "phantom-api core export_client client_name=\"export-demo\" | jq -r '.data.config'" "$PAUSE_AFTER_EXEC_LONG"
-
-do_clear
-
-# ─── Step 5: Save config to file ────────────────────────────
-run_command "phantom-api core export_client client_name=\"export-demo\" | jq -r '.data.config' > export-demo.conf" 1.5
-run_command 'cat export-demo.conf' "$PAUSE_AFTER_EXEC_LONG"
+# ─── Step 4: Save config to file ────────────────────────────
+run_command "phantom-api core export_client client_name=\"alice-laptop\" | jq -r '.data.config' > alice-laptop.conf" 1.5
+run_command 'cat alice-laptop.conf' "$PAUSE_AFTER_EXEC_LONG"
 
 # ─── End ────────────────────────────────────────────────────
 sleep 1.0

@@ -105,7 +105,7 @@ show_motd() {
     printf '%b' "${LOCAL_PS1}"
     type_text "ssh root@server"
     sleep "$PAUSE_AFTER_TYPE"
-    printf '\n'
+    printf '\n\n'
 
     # Show MOTD from local file
     cat "$MOTD_FILE"

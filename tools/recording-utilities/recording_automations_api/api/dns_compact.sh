@@ -12,6 +12,7 @@ source "$SCRIPT_DIR/../common.sh"
 
 # ═══════════════════════════════════════════════════════════════
 # SCENARIO FLOW
+# Demonstrates DNS change effect on client configs
 # ═══════════════════════════════════════════════════════════════
 
 # ─── Step 0: Initial setup ──────────────────────────────────
@@ -26,22 +27,27 @@ run_command 'phantom-api dns status' "$PAUSE_AFTER_EXEC_LONG"
 
 do_clear
 
-# ─── Step 3: Get current DNS servers ────────────────────────
-run_command 'phantom-api dns get_dns_servers' "$PAUSE_AFTER_EXEC"
+# ─── Step 3: Show client config BEFORE DNS change ──────────
+run_command "phantom-api core export_client client_name=\"bob-phone\" | jq -r '.data.config'" "$PAUSE_AFTER_EXEC_LONG"
 
 do_clear
 
-# ─── Step 4: Change DNS servers to Cloudflare ───────────────
-run_command 'phantom-api dns change_dns_servers primary="1.1.1.1" secondary="1.0.0.1"' "$PAUSE_AFTER_EXEC_LONG"
+# ─── Step 4: Change DNS servers to Quad9 ────────────────────
+run_command 'phantom-api dns change_dns_servers primary="9.9.9.9" secondary="149.112.112.112"' "$PAUSE_AFTER_EXEC_LONG"
 
 do_clear
 
-# ─── Step 5: Test the new DNS configuration ─────────────────
+# ─── Step 5: Show client config AFTER DNS change ───────────
+run_command "phantom-api core export_client client_name=\"bob-phone\" | jq -r '.data.config'" "$PAUSE_AFTER_EXEC_LONG"
+
+do_clear
+
+# ─── Step 6: Test the new DNS configuration ─────────────────
 run_command 'phantom-api dns test_dns_servers' "$PAUSE_AFTER_EXEC_LONG"
 
 do_clear
 
-# ─── Step 6: Verify final status ────────────────────────────
+# ─── Step 7: Verify final status ────────────────────────────
 run_command 'phantom-api dns status' "$PAUSE_AFTER_EXEC_LONG"
 
 # ─── End ────────────────────────────────────────────────────

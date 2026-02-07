@@ -23,6 +23,7 @@ SCRIPTS=(
     # Core Module
     "server_status"
     "add_client"
+    "remove_client"
     "list_clients"
     "export_client"
     "latest_clients"
@@ -31,7 +32,6 @@ SCRIPTS=(
     "get_firewall_status"
     "service_logs"
     "restart_service"
-    "remove_client"
     # DNS Module
     "dns_compact"
 )
