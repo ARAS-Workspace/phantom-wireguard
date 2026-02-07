@@ -61,6 +61,9 @@ CI/CD environments used for automated testing and recording.
 
 ### Recording Generation
 
+[![Generate CLI Recordings](https://github.com/ARAS-Workspace/phantom-wg/actions/workflows/generate-cli-recordings.yml/badge.svg)](https://github.com/ARAS-Workspace/phantom-wg/actions/workflows/generate-cli-recordings.yml)
+[![Generate API Recordings](https://github.com/ARAS-Workspace/phantom-wg/actions/workflows/generate-api-recordings.yml/badge.svg)](https://github.com/ARAS-Workspace/phantom-wg/actions/workflows/generate-api-recordings.yml)
+
 | Workflow                                                                                                                            | Description                |
 |-------------------------------------------------------------------------------------------------------------------------------------|----------------------------|
 | [generate-api-recordings.yml](https://github.com/ARAS-Workspace/phantom-wg/blob/main/.github/workflows/generate-api-recordings.yml) | API command recordings     |

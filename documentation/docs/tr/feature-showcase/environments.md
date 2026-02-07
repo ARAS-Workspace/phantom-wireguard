@@ -61,6 +61,9 @@ Otomatik test ve kayıt için kullanılan CI/CD ortamları.
 
 ### Kayıt Oluşturma
 
+[![Generate CLI Recordings](https://github.com/ARAS-Workspace/phantom-wg/actions/workflows/generate-cli-recordings.yml/badge.svg)](https://github.com/ARAS-Workspace/phantom-wg/actions/workflows/generate-cli-recordings.yml)
+[![Generate API Recordings](https://github.com/ARAS-Workspace/phantom-wg/actions/workflows/generate-api-recordings.yml/badge.svg)](https://github.com/ARAS-Workspace/phantom-wg/actions/workflows/generate-api-recordings.yml)
+
 | Workflow                                                                                                                            | Açıklama                 |
 |-------------------------------------------------------------------------------------------------------------------------------------|--------------------------|
 | [generate-api-recordings.yml](https://github.com/ARAS-Workspace/phantom-wg/blob/main/.github/workflows/generate-api-recordings.yml) | API komutları kayıtları  |
