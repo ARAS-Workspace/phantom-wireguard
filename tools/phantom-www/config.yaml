@@ -19,6 +19,10 @@ build:
     - manifest.json
     - robots.txt
 
+  # Directories to copy to dist root (not in assets/)
+  root_dirs:
+    - wheel
+
   # Files to exclude from production build (dev only)
   exclude_from_prod:
     - js/auto-reload.js

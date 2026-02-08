@@ -55,6 +55,28 @@ class AssetProcessor:
                 shutil.copy2(file_src, file_dest)
                 logger.info(f"Copied {root_file} to {file_dest}")
 
+                # Remove from dist/assets/ to avoid duplication
+                duplicate = dist_assets / root_file
+                if duplicate.exists():
+                    duplicate.unlink()
+                    logger.info(f"Removed duplicate {root_file} from assets")
+
+        # Copy root directories from config (e.g., wheel/)
+        for root_dir in self.global_config['build'].get('root_dirs', []):
+            dir_src = self.assets_dir / root_dir
+            if dir_src.is_dir():
+                dir_dest = dist_dir / root_dir
+                if dir_dest.exists():
+                    shutil.rmtree(dir_dest)
+                shutil.copytree(dir_src, dir_dest)
+                logger.info(f"Copied directory {root_dir}/ to {dir_dest}")
+
+                # Remove from dist/assets/ to avoid duplication
+                duplicate = dist_assets / root_dir
+                if duplicate.exists():
+                    shutil.rmtree(duplicate)
+                    logger.info(f"Removed duplicate {root_dir}/ from assets")
+
         # Optional: Minify in production
         if self.config['minify_css']:
             self._minify_css(dist_assets)

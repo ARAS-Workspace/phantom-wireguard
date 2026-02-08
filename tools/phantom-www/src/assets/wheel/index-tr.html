@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Phantom-WG — Spin & Deploy</title>
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Phantom-WG — Spin & Deploy">
+    <meta name="description" content="Phantom-WG sunucu ve çıkış düğümü yapılandırmanız için gizlilik odaklı VPS sağlayıcılarını rastgele seçin. Kripto dostu hosting çarkı.">
+    <meta name="keywords" content="VPN, WireGuard, Spin & Deploy, kripto VPS, gizlilik hosting, Phantom-WG">
+    <meta name="author" content="Riza Emre ARAS">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.phantom.tc/wheel/index-tr.html">
+    <meta property="og:title" content="Phantom-WG — Spin & Deploy">
+    <meta property="og:description" content="Phantom-WG sunucu ve çıkış düğümü yapılandırmanız için gizlilik odaklı VPS sağlayıcılarını rastgele seçin.">
+    <meta property="og:image" content="https://www.phantom.tc/assets/images/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="tr_TR">
+    <meta property="og:site_name" content="Phantom-WG">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://www.phantom.tc/wheel/index-tr.html">
+    <meta name="twitter:title" content="Phantom-WG — Spin & Deploy">
+    <meta name="twitter:description" content="Phantom-WG sunucu ve çıkış düğümü yapılandırmanız için gizlilik odaklı VPS sağlayıcılarını rastgele seçin.">
+    <meta name="twitter:image" content="https://www.phantom.tc/assets/images/og-image.png">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.phantom.tc/wheel/index-tr.html">
+    <!-- Theme -->
+    <meta name="theme-color" content="#10B981">
+    <!-- Wheel Styles -->
+    <link rel="stylesheet" href="assets/css/wheel.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="title-area">
+        <div class="phantom-logo">PHANTOM <span>-WG</span>
+        </div>
+        <div class="subtitle">Spin & Deploy</div>
+      </div>
+      <!-- Language Switcher -->
+      <div class="lang-switcher">
+        <a href="index-tr.html" class="lang-btn active">
+          <span class="lang-flag">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+              <rect width="1200" height="800" fill="#E30A17" />
+              <circle cx="480" cy="400" r="200" fill="#fff" />
+              <circle cx="520" cy="400" r="160" fill="#E30A17" />
+              <polygon fill="#fff" points="583,400 631,340 609,390 666,366 618,400 666,434 609,410 631,460 583,400 541,434 568,410 530,434 568,400 530,366 568,390 541,340" />
+            </svg>
+          </span> TR </a>
+        <a href="index.html" class="lang-btn">
+          <span class="lang-flag">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7410 3900">
+              <rect width="7410" height="3900" fill="#B22234" />
+              <path d="M0,450H7410m0,600H0m0,600H7410m0,600H0m0,600H7410m0,600H0" stroke="#fff" stroke-width="300" />
+              <rect width="2964" height="2100" fill="#3C3B6E" />
+              <g fill="#fff">
+                <g id="s18">
+                  <g id="s9">
+                    <g id="s5">
+                      <g id="s4">
+                        <path id="s" d="M247,90 317.534230,307.082039 132.873218,172.917961H361.126782L176.465770,307.082039z" />
+                        <use href="#s" y="420" />
+                        <use href="#s" y="840" />
+                        <use href="#s" y="1260" />
+                      </g>
+                      <use href="#s" y="1680" />
+                    </g>
+                    <use href="#s4" x="247" y="210" />
+                  </g>
+                  <use href="#s9" x="494" />
+                </g>
+                <use href="#s18" x="988" />
+              </g>
+            </svg>
+          </span> EN </a>
+      </div>
+      <div class="step-indicator" id="stepIndicator">
+        <span class="step-label" id="stepLabel1">Server</span>
+        <div class="step-dot" id="stepDot1"></div>
+        <div class="step-line" id="stepLine1"></div>
+        <div class="step-dot" id="stepDot2"></div>
+        <span class="step-label" id="stepLabel2">Exit</span>
+      </div>
+      <div class="current-step-title" id="currentStepTitle"></div>
+      <div class="start-screen" id="startScreen">
+        <button class="phantom-btn" onclick="startFlow()">BASLAT</button>
+        <a href="../" class="back-home">&larr; ANA SAYFAYA DON</a>
+        <a href="https://github.com/ARAS-Workspace/phantom-wg/blob/main/tools/phantom-www/src/assets/wheel/PRIVACY_TR.md" target="_blank" class="privacy-notice">Gizlilik Bildirimi</a>
+      </div>
+      <div class="wheel-wrapper" id="wheelWrapper">
+        <div class="pointer"></div>
+        <canvas id="wheel" width="840" height="840"></canvas>
+        <div class="center-hub">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+          </svg>
+        </div>
+        <div class="tick-flash" id="tickFlash"></div>
+      </div>
+      <div class="spin-area" id="spinArea">
+        <button class="phantom-btn" id="spinBtn" onclick="spinWheel()">CEVIR</button>
+        <div class="step-result">
+          <div class="step-result-name" id="stepResultName"></div>
+          <div class="step-result-meta" id="stepResultMeta"></div>
+        </div>
+      </div>
+      <div class="final-panel" id="finalPanel">
+        <div class="final-title">Yapilandirma Hazir</div>
+        <div class="final-cards">
+          <div class="final-card" id="finalCardServer">
+            <div class="final-card-role">Server</div>
+            <div class="final-card-name" id="finalServerName">&mdash;</div>
+            <div class="final-card-crypto" id="finalServerCrypto"></div>
+            <div class="final-card-url" id="finalServerUrl"></div>
+          </div>
+          <div class="route-arrow" id="routeArrow">&rarr;</div>
+          <div class="final-card" id="finalCardExit">
+            <div class="final-card-role">Exit Node</div>
+            <div class="final-card-name" id="finalExitName">&mdash;</div>
+            <div class="final-card-crypto" id="finalExitCrypto"></div>
+            <div class="final-card-url" id="finalExitUrl"></div>
+          </div>
+        </div>
+        <button class="phantom-btn" onclick="resetFlow()">SIFIRLA</button>
+      </div>
+    </div>
+    <script>
+      window.WHEEL_LANG = {
+        start: 'BASLAT',
+        spin: 'CEVIR',
+        spinning: '...',
+        reset: 'SIFIRLA',
+        stepServer: 'Server Provider Sec',
+        stepExit: 'Exit Provider Sec',
+        finalTitle: 'Yapilandirma Hazir'
+      };
+    </script>
+    <script src="assets/js/wheel.js"></script>
+  </body>
+</html>

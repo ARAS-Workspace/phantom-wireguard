@@ -5,6 +5,8 @@ links:
     url: https://github.com/ARAS-Workspace/phantom-wg
   - text: Documentation
     url: https://docs.phantom.tc
+  - text: Spin & Deploy
+    url: wheel/
   - text: Support Phantom
     url: "#"
     id: supportMeLink
