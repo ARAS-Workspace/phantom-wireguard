@@ -40,6 +40,8 @@ modüler bir araçtır. Temel VPN yönetiminin ötesinde; sansüre dayanıklı b
 > **Kaynak Kullanımı:** WireGuard kernel modülü olarak çalıştığı için minimal sistem kaynağı kullanır.
 > Detaylı performans bilgisi için [WireGuard Performance](https://www.wireguard.com/performance/) sayfasına bakınız.
 
+> **Sağlayıcı mı arıyorsunuz?** Hangi sağlayıcıyı seçeceğinize karar veremediyseniz, [Spin & Deploy](https://www.phantom.tc/wheel/index-tr.html) aracını deneyin — gizlilik odaklı, kripto dostu VPS sağlayıcıları arasından rastgele seçim yapın!
+
 ### Kurulum
 
 ```bash

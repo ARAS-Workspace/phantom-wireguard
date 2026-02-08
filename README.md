@@ -40,6 +40,8 @@ censorship-resistant connections, multi-layer encryption, and advanced privacy s
 > **Resource Usage:** WireGuard runs as a kernel module, consuming minimal system resources.
 > For detailed performance information, see [WireGuard Performance](https://www.wireguard.com/performance/).
 
+> **Need a provider?** If you can't decide which provider to go with, try [Spin & Deploy](https://www.phantom.tc/wheel/) — randomly select from privacy-focused, crypto-friendly VPS providers!
+
 ### Installation
 
 ```bash
