@@ -8,7 +8,7 @@
     <meta name="title" content="Phantom-WG — Spin & Deploy">
     <meta name="description" content="Phantom-WG sunucu ve çıkış düğümü yapılandırmanız için gizlilik odaklı VPS sağlayıcılarını rastgele seçin. Kripto dostu hosting çarkı.">
     <meta name="keywords" content="VPN, WireGuard, Spin & Deploy, kripto VPS, gizlilik hosting, Phantom-WG">
-    <meta name="author" content="Riza Emre ARAS">
+    <meta name="author" content="Rıza Emre ARAS">
     <meta name="robots" content="index, follow">
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -28,6 +28,8 @@
     <meta name="twitter:image" content="https://www.phantom.tc/assets/images/og-image.png">
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.phantom.tc/wheel/index-tr.html">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <!-- Theme -->
     <meta name="theme-color" content="#10B981">
     <!-- Wheel Styles -->
@@ -87,8 +89,8 @@
       </div>
       <div class="current-step-title" id="currentStepTitle"></div>
       <div class="start-screen" id="startScreen">
-        <button class="phantom-btn" onclick="startFlow()">BASLAT</button>
-        <a href="../" class="back-home">&larr; ANA SAYFAYA DON</a>
+        <button class="phantom-btn" onclick="startFlow()">BAŞLAT</button>
+        <a href="../" class="back-home">&larr; ANA SAYFAYA DÖN</a>
         <a href="https://github.com/ARAS-Workspace/phantom-wg/blob/main/tools/phantom-www/src/assets/wheel/PRIVACY_TR.md" target="_blank" class="privacy-notice">Gizlilik Bildirimi</a>
       </div>
       <div class="wheel-wrapper" id="wheelWrapper">
@@ -102,14 +104,14 @@
         <div class="tick-flash" id="tickFlash"></div>
       </div>
       <div class="spin-area" id="spinArea">
-        <button class="phantom-btn" id="spinBtn" onclick="spinWheel()">CEVIR</button>
+        <button class="phantom-btn" id="spinBtn" onclick="spinWheel()">ÇEVİR</button>
         <div class="step-result">
           <div class="step-result-name" id="stepResultName"></div>
           <div class="step-result-meta" id="stepResultMeta"></div>
         </div>
       </div>
       <div class="final-panel" id="finalPanel">
-        <div class="final-title">Yapilandirma Hazir</div>
+        <div class="final-title">Yapılandırma Hazır</div>
         <div class="final-cards">
           <div class="final-card" id="finalCardServer">
             <div class="final-card-role">Server</div>
@@ -119,7 +121,7 @@
           </div>
           <div class="route-arrow" id="routeArrow">&rarr;</div>
           <div class="final-card" id="finalCardExit">
-            <div class="final-card-role">Exit Node</div>
+            <div class="final-card-role">Çıkış Düğümü</div>
             <div class="final-card-name" id="finalExitName">&mdash;</div>
             <div class="final-card-crypto" id="finalExitCrypto"></div>
             <div class="final-card-url" id="finalExitUrl"></div>
@@ -130,13 +132,13 @@
     </div>
     <script>
       window.WHEEL_LANG = {
-        start: 'BASLAT',
-        spin: 'CEVIR',
+        start: 'BAŞLAT',
+        spin: 'ÇEVİR',
         spinning: '...',
         reset: 'SIFIRLA',
-        stepServer: 'Server Provider Sec',
-        stepExit: 'Exit Provider Sec',
-        finalTitle: 'Yapilandirma Hazir'
+        stepServer: 'Sunucu Sağlayıcı Seç',
+        stepExit: 'Çıkış Sağlayıcı Seç',
+        finalTitle: 'Yapılandırma Hazır'
       };
     </script>
     <script src="assets/js/console-branding.js"></script>
