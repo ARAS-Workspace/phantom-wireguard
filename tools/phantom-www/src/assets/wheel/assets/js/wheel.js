@@ -103,10 +103,12 @@ function drawWheel(angle) {
     ctx.moveTo(CX, CY);
     ctx.arc(CX, CY, R, startAngle, endAngle);
     ctx.closePath();
+    const hue = 150 + (i * (70 / PROVIDERS.length));
     const gradient = ctx.createRadialGradient(CX, CY, R * 0.15, CX, CY, R);
-    gradient.addColorStop(0, i % 2 === 0 ? '#0c1a2e' : '#0f2035');
-    gradient.addColorStop(0.7, provider.color + '22');
-    gradient.addColorStop(1, provider.color + '44');
+    gradient.addColorStop(0, i % 2 === 0 ? '#080e1b' : '#0a1322');
+    gradient.addColorStop(0.5, `hsla(${hue}, 60%, 22%, 0.15)`);
+    gradient.addColorStop(0.85, `hsla(${hue}, 60%, 28%, 0.25)`);
+    gradient.addColorStop(1, `hsla(${hue}, 65%, 32%, 0.35)`);
     ctx.fillStyle = gradient;
     ctx.fill();
 

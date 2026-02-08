@@ -2,55 +2,46 @@
   {
     "name": "BitLaunch",
     "crypto": "BTC, ETH, LTC",
-    "url": "https://bitlaunch.io",
-    "color": "#10B981"
+    "url": "https://bitlaunch.io"
   },
   {
     "name": "Njalla",
     "crypto": "BTC, XMR",
-    "url": "https://njal.la",
-    "color": "#166534"
+    "url": "https://njal.la"
   },
   {
     "name": "FlokiNET",
     "crypto": "BTC, XMR, ETH",
-    "url": "https://flokinet.is",
-    "color": "#059669"
+    "url": "https://flokinet.is"
   },
   {
     "name": "BuyVM",
     "crypto": "BTC, LTC",
-    "url": "https://buyvm.net",
-    "color": "#14532D"
+    "url": "https://buyvm.net"
   },
   {
     "name": "Privex",
     "crypto": "BTC, XMR",
-    "url": "https://privex.io",
-    "color": "#0D9488"
+    "url": "https://privex.io"
   },
   {
     "name": "RackNerd",
     "crypto": "BTC, ETH, LTC",
-    "url": "https://racknerd.com",
-    "color": "#115E59"
+    "url": "https://racknerd.com"
   },
   {
     "name": "1984",
     "crypto": "BTC",
-    "url": "https://1984.is",
-    "color": "#047857"
+    "url": "https://1984.is"
   },
   {
     "name": "OrangeWeb",
     "crypto": "BTC, XMR, ETH",
-    "url": "https://orangewebsite.com",
-    "color": "#065F46"
+    "url": "https://orangewebsite.com"
   },
   {
     "name": "SporeStack",
     "crypto": "BTC, XMR",
-    "url": "https://sporestack.com",
-    "color": "#0F766E"
+    "url": "https://sporestack.com"
   }
 ]
